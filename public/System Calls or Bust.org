@@ -1,0 +1,505 @@
+:PROPERTIES:
+:ID:       cb5b176b-e491-457a-8c09-1b9a36f883fe
+:END:
+#+title: 5 System Calls or Bust
+
+
+
+* System Calls or Bust
+  :PROPERTIES:
+  :CUSTOM_ID: system-calls-or-bust
+  :END:
+
+This section deals with system calls to access network functionality of
+a box or computer that supports sockets API. These calls are handled by
+kernel. Problem occurs in determining what order should we call these
+things in.
+** =getaddrinfo()=
+This is a real helpful function with a lots of option. First of all its helps set up the =structs= we need. [[https://www.man7.org/linux/man-pages/man3/getaddrinfo.3.html][Documentation here]].
+
+#+BEGIN_SRC C++
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+
+int getaddrinfo(const char *node,     // e.g. "www.example.com" or IP
+                const char *service,  // e.g. "http" or port number
+                const struct addrinfo *hints,
+                struct addrinfo **res);
+#+END_SRC
+
+It takes three input parameters and returns a pointer to a linked-list
+=res=. =node= is the host name to connect to, or an IP address.
+=service=, can be a port number or name of a particular service as
+mentioned in [[https://www.iana.org/assignments/port-numbers][THE IANA Port List]], you can also check first section of =etc/services=. =hints=
+parameter points to a =struct addrinfo= that we've already filled with
+relevant information. It returns 0 if it succeeds and other non-zero
+integers if it fails. Example Code that listens to port "3490".
+
+#+BEGIN_SRC C++
+    int status;
+    struct addrinfo hints;
+    struct addrinfo *servinfo;  // will point to the results
+
+    memset(&hints, 0, sizeof hints); // make sure the struct is empty
+    hints.ai_family = AF_UNSPEC;     // don't care IPv4 or IPv6
+    hints.ai_socktype = SOCK_STREAM; // TCP stream sockets
+    hints.ai_flags = AI_PASSIVE;     // fill in my IP for me
+
+    if ((status = getaddrinfo(NULL, "3490", &hints, &servinfo)) != 0) {
+        fprintf(stderr, "getaddrinfo error: %s\n", gai_strerror(status));
+        exit(1);
+    }
+
+    // servinfo now points to a linked list of 1 or more struct addrinfos
+
+    // ... do everything until you don't need servinfo anymore ....
+
+    freeaddrinfo(servinfo); // free the linked-list
+#+END_SRC
+
+=AF_UNSPEC= here means it is IPv agnostic. =AI_PASSIVE= flag tells
+=getaddrinfo()= to assign the address of local host to the socket
+structure[fn:3]. If there is an error, we can print it using
+=gai_strerror()= which takes status code as parameter and returns an
+string. =serverinfo= pointer gets allocated if everything works alright,
+and we can later free that using =freeaddrinfo()=. Now what if instead
+of local address we wanted to connect to "www.example.com"?(not actually
+connect but set up =struct= for it) Then we can use
+
+#+BEGIN_SRC C++
+    int status;
+    struct addrinfo hints;
+    struct addrinfo *servinfo;  // will point to the results
+
+    memset(&hints, 0, sizeof hints); // make sure the struct is empty
+    hints.ai_family = AF_UNSPEC;     // don't care IPv4 or IPv6
+    hints.ai_socktype = SOCK_STREAM; // TCP stream sockets
+
+    // get ready to connect
+    status = getaddrinfo("www.example.net", "3490", &hints, &servinfo);
+
+    // servinfo now points to a linked list of 1 or more struct addrinfos
+
+    // etc.
+#+END_SRC
+
+Now for example this code will show IP address of whatever host we write
+in.
+
+#+BEGIN_SRC C++
+    /*
+    ** showip.c -- show IP addresses for a host given on the command line
+    */
+
+    #include <stdio.h>
+    #include <string.h>
+    #include <sys/types.h>
+    #include <sys/socket.h>
+    #include <netdb.h>
+    #include <arpa/inet.h>
+    #include <netinet/in.h>
+
+    int main(int argc, char *argv[])
+    {
+        struct addrinfo hints, *res, *p;
+        int status;
+        char ipstr[INET6_ADDRSTRLEN];
+
+        if (argc != 2) {
+            fprintf(stderr,"usage: showip hostname\n");
+            return 1;
+        }
+
+        memset(&hints, 0, sizeof hints);
+        hints.ai_family = AF_UNSPEC; // AF_INET or AF_INET6 to force version
+        hints.ai_socktype = SOCK_STREAM;
+
+        if ((status = getaddrinfo(argv[1], NULL, &hints, &res)) != 0) {
+            fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(status));
+            return 2;
+        }
+
+        printf("IP addresses for %s:\n\n", argv[1]);
+
+        for(p = res;p != NULL; p = p->ai_next) {
+            void *addr;
+            char *ipver;
+
+            // get the pointer to the address itself,
+            // different fields in IPv4 and IPv6:
+            if (p->ai_family == AF_INET) { // IPv4
+                struct sockaddr_in *ipv4 = (struct sockaddr_in *)p->ai_addr;
+                addr = &(ipv4->sin_addr);
+                ipver = "IPv4";
+            } else { // IPv6
+                struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)p->ai_addr;
+                addr = &(ipv6->sin6_addr);
+                ipver = "IPv6";
+            }
+
+            // convert the IP to a string and print it:
+            inet_ntop(p->ai_family, addr, ipstr, sizeof ipstr);
+            printf("  %s: %s\n", ipver, ipstr);
+        }
+
+        freeaddrinfo(res); // free the linked list
+
+        return 0;
+    }
+#+END_SRC
+
+** =socket()=
+   :PROPERTIES:
+   :CUSTOM_ID: socket
+   :END:
+
+Socket system call looks like:
+
+#+BEGIN_SRC C++
+    #include <sys/types.h>
+        #include <sys/socket.h>
+        
+        int socket(int domain, int type, int protocol); 
+#+END_SRC
+
+These arguments allow us to tell what kind of socket we want, IPv4 or
+IPv6(using =PF_INET= or =PF_INET6=), steam or datagram and TCP or UDP.
+
+What you really want to do is use the values from the results of the
+call to =getaddrinfo()=, and feed them into =socket()= directly like
+this:
+
+#+BEGIN_SRC C
+    int s;
+    struct addrinfo hints, *res;
+
+    // do the lookup
+    // [pretend we already filled out the "hints" struct]
+    getaddrinfo("www.example.com", "http", &hints, &res);
+
+    // again, you should do error-checking on getaddrinfo(), and walk
+    // the "res" linked list looking for valid entries instead of just
+    // assuming the first one is good (like many of these examples do).
+    // See the section on client/server for real examples.
+
+    s = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+#+END_SRC
+
+=socket()= will return us a socket descriptor(or an error as -1) that we
+can further use in system calls. Global variable =errno= is set to the
+error's value.
+
+** =Bind()=
+   :PROPERTIES:
+   :CUSTOM_ID: bind
+   :END:
+
+This isn't that important because we have =listen()= and =connect()= but
+still here we go
+
+#+BEGIN_SRC C
+        #include <sys/types.h>
+        #include <sys/socket.h>
+        
+        int bind(int sockfd, struct sockaddr *my_addr, int addrlen);
+#+END_SRC
+
+=sockfd= is the socket file descriptor, =my_addris= a pointer to a
+=sockaddr= that contains information about our address(port and IP
+address), and at last =addrlen= is the length in bytes of that address.
+Whew. That's a bit to absorb in one chunk. Let's have an example that
+binds the socket to the host the program is running on, port 3490:
+
+#+BEGIN_SRC C++
+    struct addrinfo hints, *res;
+    int sockfd;
+
+    // first, load up address structs with getaddrinfo():
+
+    memset(&hints, 0, sizeof hints);
+    hints.ai_family = AF_UNSPEC;  // use IPv4 or IPv6, whichever
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = AI_PASSIVE;     // fill in my IP for me
+
+    getaddrinfo(NULL, "3490", &hints, &res);
+
+    // make a socket:
+
+    sockfd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+
+    // bind it to the port we passed in to getaddrinfo():
+
+    bind(sockfd, res->ai_addr, res->ai_addrlen);
+#+END_SRC
+
+=AI_PASSIVE= can be changed to hosts of our choice. Bind returns -1 on
+error and sets =errno= for error's value. Port below 1024 are reserved,
+so only choose above it. If =port= given to =bind()= is already in use
+we can add this code allowing it to reuse the port.
+** =setsockopt=
+Sets a socket for use
+
+#+BEGIN_SRC C++
+    int yes=1;
+    //char yes='1'; // Solaris people use this
+
+    // lose the pesky "Address already in use" error message
+    if (setsockopt(listener,SOL_SOCKET,SO_REUSEADDR,&yes,sizeof yes) == -1) {
+        perror("setsockopt");
+        exit(1);
+    } 
+#+END_SRC
+
+If we only care about remote machine then we can use =coneect()=, it
+will find any local unused port and connect using it. And speaking of
+=connect()= ## =Connect()= The connect() call is as follows:
+
+#+BEGIN_SRC C++
+    #include <sys/types.h>
+    #include <sys/socket.h>
+
+    int connect(int sockfd, struct sockaddr *serv_addr, int addrlen); 
+#+END_SRC
+
+=sockfd= (again) is our socket file descriptor returned by =socket()=,
+=serv_addr= is =struct sockaddr= containing the destination port and IP
+address, =addrlen= is the length in bytes of the server address
+structure. All this info can be gleaned from the result of the
+=getaddrinfo()=. Suppose we have to make a socket connection to
+"www.example.com", port 3490.
+#+begin_src c++
+struct addrinfo hints, *res; int sockfd;
+
+// first, load up address structs with getaddrinfo():
+
+memset(&hints, 0, sizeof hints); hints.ai_family = AF_UNSPEC;
+hints.ai_socktype = SOCK_STREAM;
+
+getaddrinfo("www.example.com", "3490", &hints, &res);
+
+// make a socket:
+
+sockfd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+
+// connect!
+
+connect(sockfd, res->ai_addr, res->ai_addrlen);
+#+end_src
+=getaddrinfo()= is superman of a function. We did not call bind because we dont care abut
+binding our application to a specific local port.
+
+** =listen()=
+   :PROPERTIES:
+   :CUSTOM_ID: listen
+   :END:
+
+What if instead of connecting to remote connection, *We are the remote
+connection listening to oncoming connections?* This is a two step
+process, first we call =listen()=, then we =accept()= those connections.
+=listen()= call is simple
+
+#+BEGIN_SRC C
+    int listen(int sockfd, int backlog); 
+#+END_SRC
+
+=sockfd=(again again) is socket file descriptor, =backlog= is the number
+of connections allowed on the incoming queue. Incoming connections wait
+in queue until we =accept()= them and this is the limit on how many can
+queue up. As always =listen()= returns -1 on error.\\
+This time we will need to call =bind()= so that the server can bind to a
+specific port(we will need to tell user which port to connect to).
+
+#+BEGIN_SRC C++
+    getaddrinfo();
+    socket();
+    bind();
+    listen();
+    /* accept() goes here */ 
+#+END_SRC
+
+and now
+** =accept()=
+When someone will try to =connect()= to our
+machine which is =listen()=ing for connections. These connection
+requests will be queued, waiting for =accept()=.We tell =accept()= to
+get pending connection. it will return a brand new file socket
+descriptor.
+
+#+BEGIN_SRC C++
+        #include <sys/types.h>
+        #include <sys/socket.h>
+        
+        int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen); 
+#+END_SRC
+
+in here =sockfd= is the socket descriptor function is =listen()=ing
+to.=addr= will usually point to a local =sockaddr-storage=, where
+information about the incoming connection will go(and which host is
+calling us from which port). =addrlen= should be set to
+=sizeof(struct sockaddr_storage)= before its address is passed to the
+accent. =accept= will not put more bytes than stated in =addrlen= and if
+it puts fewer it will change the value of =addrlen=.
+
+#+BEGIN_SRC C++
+    #include <string.h>
+    #include <sys/types.h>
+    #include <sys/socket.h>
+    #include <netdb.h>
+
+    #define MYPORT "3490"  // the port users will be connecting to
+    #define BACKLOG 10     // how many pending connections queue will hold
+
+    int main(void)
+    {
+        struct sockaddr_storage their_addr;
+        socklen_t addr_size;
+        struct addrinfo hints, *res;
+        int sockfd, new_fd;
+
+        // !! don't forget your error checking for these calls !!
+
+        // first, load up address structs with getaddrinfo():
+
+        memset(&hints, 0, sizeof hints);
+        hints.ai_family = AF_UNSPEC;  // use IPv4 or IPv6, whichever
+        hints.ai_socktype = SOCK_STREAM;
+        hints.ai_flags = AI_PASSIVE;     // fill in my IP for me
+
+        getaddrinfo(NULL, MYPORT, &hints, &res);
+
+        // make a socket, bind it, and listen on it:
+
+        sockfd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+        bind(sockfd, res->ai_addr, res->ai_addrlen);
+        listen(sockfd, BACKLOG);
+
+        // now accept an incoming connection:
+
+        addr_size = sizeof their_addr;
+        new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &addr_size);
+
+        // ready to communicate on socket descriptor new_fd!
+#+END_SRC
+
+** =send()= and =recv()=
+   :PROPERTIES:
+   :CUSTOM_ID: sned-and-recv
+   :END:
+
+These two functions are used to communicate with /only/ stream
+sockets[fn:4]. =send()= call looks like
+=c++     int send(int sockfd, const void *msg, int len, int flags);=
+=socfd= is the file descriptor(we get this from either =socket()= call
+or =accept()=).=msg= is pointer to the data we want to send and =len= is
+the length of data in bytes. =flags= is..well flags. Set it to 0.
+=send()= returns bytes sent(can be used to send remaing bytes later).
+Example code:
+
+#+BEGIN_SRC C++
+    char *msg = "Beej was here!";
+    int len, bytes_sent;
+    .
+    .
+    len = strlen(msg);
+    bytes_sent = send(sockfd, msg, len, 0);
+    .
+    .
+    . 
+#+END_SRC
+
+=recv()= is similar. Call sounds like
+
+#+BEGIN_EXAMPLE
+    ``` c++
+    int recv(int sockfd, void *buf, int len, int flags);
+    ```
+#+END_EXAMPLE
+
+=buf= is the buffer to read information into. Len is the maximum length
+of the buffer. Flags are set to 0. It returns bytes it read into buffer.
+=recv()= can also return 0, meaning remote has closed the connection.
+
+** =sendto()= and =recvfrom()=
+   :PROPERTIES:
+   :CUSTOM_ID: sendto-and-recvfrom
+   :END:
+
+Since datagrams arent connected to a remote host, we simply enter
+destination address.
+=c++     int sendto(int sockfd, const void *msg, int len, unsigned int flags,                const struct sockaddr *to, socklen_t tolen);=
+=to= is a pointer to =sockaddrr= which contains the destination IP
+address and port. =tolen= is set to
+=sizeof *to or sizeof(struct sockaddr_storage)=. When
+=sendto()=returns,=fromlen= contains the length of address actually
+stored in from.\\
+=recvfrom()= returns number of bytes received. So why use
+=sockadrr_storage= instead of =struct_sockaddr=? because it is
+short[fn:5]. ## =close()= and =shutdown()= We can close connection on
+our socket descriptor using =close(sockfd)=, this will prevent any more
+read and writes to the socket. Or we can even control how exactly socket
+descriptor closes using =shutdown(int sockfd, int how)=.
+
+| =how=   | Effect                               |
+|---------+--------------------------------------|
+| 0       | receives are disallowed              |
+| 1       | sends are disallowed                 |
+| 2       | both are disallowed(like =close()=   |
+
+** =getpeername()=
+   :PROPERTIES:
+   :CUSTOM_ID: getpeername
+   :END:
+
+=getpeername()= call seems like
+
+#+BEGIN_SRC C++
+    int getpeername(int sockfd, struct sockaddr *addr, int *addrlen); 
+#+END_SRC
+
+=addr= is a pointer to a =sockaddr=(ot =sockaddr_in=) that will hold the
+information about the other side of the connection. And =addrlen= is set
+to =sizeof *addr or sizeof(struct sockaddr()=.\\
+=inet_ntop()=, =getnameinfo()=, or =gethostbyaddr()= to print or get
+more information. ## =gethostname()= It returns the name of the host
+machine(machine program is running on) name which can later be used with
+=gethostbyname()= to detrmie current IP address of local machine..
+
+#+BEGIN_SRC C++
+    #include <unistd.h>
+
+    int gethostname(char *hostname, size_t size); 
+#+END_SRC
+
+[fn:1] for datagrams we use =senndto()= and =recvfrom()=
+
+[fn:2] if you connect() a datagram socket, you can then simply use
+       send() and recv() for all your transactions. The socket itself is
+       still a datagram socket and the packets still use UDP, but the
+       socket interface will automatically add the destination and
+       source information for you.
+
+[fn:3] 
+
+       #+BEGIN_QUOTE
+
+         If the AI_PASSIVE flag is specified in hints.ai_flags, and node
+         is NULL, then the returned socket addresses will be suitable
+         for bind(2)ing a socket that will accept(2) connections. The
+         returned socket address will contain the "wildcard address"
+         (INADDR_ANY for IPv4 addresses, IN6ADDR_ANY_INIT for IPv6
+         address). The wildcard address is used by applications
+         (typically servers) that intend to accept connections on any of
+         the host's network addresses. If node is not NULL, then the
+         AI_PASSIVE flag is ignored.\\
+         for information about
+         [[https://www.man7.org/linux/man-pages/man3/getaddrinfo.3.html#RETURN_VALUE][more flags]]
+       #+END_QUOTE
+
+[fn:4] for datagrams we use =senndto()= and =recvfrom()=
+
+[fn:5] if you connect() a datagram socket, you can then simply use
+       send() and recv() for all your transactions. The socket itself is
+       still a datagram socket and the packets still use UDP, but the
+       socket interface will automatically add the destination and
+       source information for you.

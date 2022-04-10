@@ -1,19 +1,38 @@
-#+TITLE: Uniorg braindump example
+:PROPERTIES:
+:ID:       40fe0b6a-628c-4310-b409-5ee71f8b6de3
+:END:
+#+title: Programming
+#+author: Aniket Singh
+#+hugo_base_dir: ~/hugo
+#+setupfile:
 
-This is an example braindump built with [[https://github.com/rasendubi/uniorg][uniorg]] and [[https://nextjs.org/][Next.js]].
-
-Source code is available [[https://github.com/rasendubi/uniorg/tree/master/examples/org-braindump][at GitHub]].
-
-You can use ~create-next-app~ to bootstrap the example for you:
-#+begin_src sh
-npx create-next-app --example https://github.com/rasendubi/uniorg/tree/master/examples/org-braindump
-#+end_src
-
-* Learn about this template
-- [[file:./uniorg.org][uniorg]]
-- [[file:./styling.org][Styling]]
-- [[file:./code-highlight.org][Code highlight]]
-- [[file:./changing-posts-directory.org][Changing posts directory]]
-- [[file:./archive-page][Archive page]]
-- [[file:./org-roam.org][org-roam]]
-- [[file:./id-links.org][Id links]]
+* System programming
+** Languages
+- [[id:c8656b43-6433-403b-a671-1697c7839673][Rust Programming language]]
+* [[id:71978ada-b533-440c-a2e4-d6110f6bc085][Network programming]]
+** Network Programming In C
+:PROPERTIES:
+:ID:       db228137-c3ca-4dfd-9361-f209a836704b
+:END:
+*** Beej's Guide to network Programming
+:PROPERTIES:
+:ID:       b606e19b-411b-4fe9-a192-fe951c978ba7
+:END:
+[[https://beej.us/guide/bgnet/html/][beej's guide to network programming]]
+**** Notes
++ [[id:4be2fe45-a5f1-4d89-b415-e6b34ffabb3c][2 Sockets]]
++ [[id:faae1be1-0640-4464-a9a5-fc23defc8b82][3 IP addresses]]
++ [[id:c76ebd62-fc90-4a8d-bfce-b670467488ab][4 from IPv4 to IPv6]]
++ [[id:cb5b176b-e491-457a-8c09-1b9a36f883fe][5 System Calls or Bust]]
++ [[id:f4c00ee8-b679-4813-8432-ddc0ddc3aca1][6 Client-Server Background]]
+* Web development
+** FrontEnd
+:PROPERTIES:
+:ID:       181bd00e-078d-4fc4-9f8d-6305539e5949
+:END:
+*** [[id:6a9f0611-91bf-4c24-9d9b-2f743624275d][ReactJS]]
+** Backend
+:PROPERTIES:
+:ID:       149a1ae5-21c6-4e76-8fa9-9af701573fc4
+:END:
+*** [[id:b43279e0-0106-4a81-9870-79ff9f59b9f2][Django]]

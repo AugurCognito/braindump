@@ -1,0 +1,19 @@
+:PROPERTIES:
+:ID:       59a68247-ffd7-47d4-b198-557dcab614cf
+:END:
+#+title: JavaScript XML
+#+author: Aniket Singh
+
+* [[http://facebook.github.io/jsx/][JSX]]
+It is a way to write HTML inside the JavaScript. To use it inside a HTML file we use Babel, another library, and we use it using =target= attribute of =script= tag of where we want JSX to add.
+#+begin_src html
+<script type="text/babel">
+// my app's code
+</script>
+#+end_src
+This will make browser ignore that =script= tag as invalid and babel can use parse that into browser readable.\\
+** Self-Closing tags
+:PROPERTIES:
+:ID:       f31a121c-54b8-4f7a-8eea-40caeeb01268
+:END:
+require you ending them with =\= for them to work, for example to write =<br>=, you need to write =<br\>=.

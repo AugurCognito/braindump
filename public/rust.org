@@ -1,0 +1,257 @@
+:PROPERTIES:
+:ID:       c8656b43-6433-403b-a671-1697c7839673
+:END:
+#+title: Rust Programming Language
+#+author: Aniket Singh
+
+* Learning
+To learn I am using different resources including
+- Rust Doc
+
+** Hello World
+:PROPERTIES:
+:ID:       45868ce2-31d8-4c07-ba39-408aa207e5ce
+:END:
+From [[https://doc.rust-lang.org/book/ch01-02-hello-world.html][Rust Doc::Hello World]]
+***  Hello World using =rustc=
+
+We call =println!()=, which is a macro and **NOT** a function. We write this inside the =main()= function, and we define functions using =fn= keyword.\\
+To compile we use =rustc <filename.rs>=. After compiling we will get a binary with same name as filename but without any extension(in Linux) and with =.exe= in windows.
+#+begin_src rust
+fn main() {
+    println!("Hello World!");
+}
+#+end_src
+
+#+RESULTS:
+: Hello World!
+
+By default rust binaries are really big because it statically links libraries, to force it to link libraries dynamically add =-C prefer-dynamic= to the =rustc= command.
+***  Hello World using =cargo=
+[[https://doc.rust-lang.org/cargo/][Cargo]] is our package handler. To create a cargo project will use =cargo new hello_cargo=, this will create =hello_cargo= directory with the following structure.
+#+begin_src
+hello_cargo/
+├── Cargo.toml
+└── src
+    └── main.rs
+#+end_src
+=main.rs= is where our code will go(for now). This also initializes a git repository inside =hello_cargo= directory.\\
+=cargo.toml= is our project's configuration file. Here we will add different dependencies etc. Now write code to display in =main.rs=. To build cargo project we can will use =cargo build=. This will create a binary(with lots of things beside it) inside a =target= directory. To simply run the program, use =cargo run=, for error checking use =cargo check=.
+** Common Concepts :control_flow:variable:functions:
+:PROPERTIES:
+:ID:       600529d3-70ca-4d06-91e1-6956e335e3ae
+:END:
+From: [[https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html][Rust Doc::Common Concepts]]
+*** Variables and Mutable
+:PROPERTIES:
+:ID:       1419ec79-624f-48c5-bce0-684fd6ce4712
+:END:
+First to define variables we use =let= keyword. For example:
+#+begin_src rust
+fn main(){
+    let var=5;
+    println!("The value of var is {}",var);
+}
+#+end_src
+
+#+RESULTS:
+: The value of var is 5
+
+By default variables are immutable,i.e. cannot be changed. For example code given below wont work
+#+begin_src rust
+fn main(){
+    let var=5;
+    println!("The value of var is {}",var);
+    var = 6;
+}
+#+end_src
+
+#+RESULTS:
+: error: Could not compile `cargouqGIqJ`.
+and will result in error.\\
+To deal with this we use =mut= keyword. Like
+#+begin_src rust
+fn main(){
+    let mut var=5;
+    println!("The value of var is {}",var);
+    var = 6;
+    println!("The value of var now is {}",var);
+
+}
+#+end_src
+
+#+RESULTS:
+: The value of var is 5
+: The value of var now is 6
+
+The variable we are referring to depends on the scope of the object. Scope define lifespan as well as where and how variable can be accessed. In a program same named variables can exist inside same program in different scopes.
+#+begin_src rust
+fn main(){
+    let var=5;
+    let var2=45;
+    println!("The value of outer var is {} and var2 is {}",var,var2);
+    {
+        let var = 10;
+        println!("The value of inner var is {}! but value of var2 is still {}",var,var2);
+    }
+    println!{"The value of outer var is still {} and value of var2 is {}",var,var2};
+}
+#+end_src
+
+#+RESULTS:
+: The value of outer var is 5 and var2 is 45
+: The value of inner var is 10! but value of var2 is still 45
+: The value of outer var is still 5 and value of var2 is 45
+
+Even without =mut= we can still change the value as well as type of variable by redefining it. For example
+#+begin_src rust
+fn main(){
+    let var=5;
+    println!("Value of var is {}", var);
+    let var = "hello!!!";
+    println!("Now value of var is {}", var);
+}
+#+end_src
+
+#+RESULTS:
+: Value of var is 5
+: Now value of var is hello!!!
+
+**** Constants
+=cost= keyword is used to define constants. These are like =let= but with some differences.
+- always immutable
+- data type MUST be annotated
+- can be set during compile time or before only
+
+*** Data types
+:PROPERTIES:
+:ID:       ee054314-a07a-4426-9f60-0a3103bf49b7
+:END:
+Every "value" in Rust has a certain data type. Rust is a statically typed language, so it must know type of every value and variable at compile time, either implicitly or explicitly. Rust has different types of data types:
+**** Scalar Data Type
+Scalar type represent single value. These divide in 4 types
+1. integer
+   Numbers without fractional components. Signed integer contain negative numbers, unsigned do not. Types of integer data types.
+   | Length  | Signed | Unsigned |
+   |---------+--------+----------|
+   | 8-bit   | =i8=     | =u8=       |
+   | 16-bit  | =i16=    | =u16=      |
+   | 32-bit  | =i32=    | =u32=      |
+   | 64-bit  | =i64=    | =u64=      |
+   | 128-bit | =i128=   | =u128=     |
+   | arch    | =isize=  | =usize=    |
+   =isize= and =usize= depends on the architecture of the system.
+   To show a specific type we can append type at the end like:
+   #+begin_src rust
+   fn main(){
+       let var1:u32 = 300;
+       let var2 = 300u8;
+   }
+   #+end_src
+
+   #+RESULTS:
+   : error: Could not compile `cargoVFL40k`.
+
+   Above code wont compile because 300 is too big to be u8(will cause overflow without checks). We can also write integer literals in following forms too.
+   | Literal Type | Example |
+   |--------------+---------|
+   | Decimal      | =98_100=  |
+   | Hexadecimal  | =0xff=    |
+   | octal        | =0o77=    |
+   | Binary       | =0b11011= |
+   | Byte         | =b'A'=    |
+   For example
+   #+begin_src rust
+   fn main(){
+       let var1 = 0o67;
+       let var2 = 0xf4;
+       let var3 = b'Z';
+       println!("Decimal: {} {} {}", var1, var2, var3);
+   }
+   #+end_src
+
+   #+RESULTS:
+   : Decimal: 55 244 90
+2. floating point
+   Floating points in rust are =f32= (single-precision) and =f64= (double-precision).
+3. boolean
+   This contain =true= and =false=.
+4. characters
+   Characters are defined using =char= keyword and in single quote ='=,
+***** Numberic Operations
+Numeric operations are possible on and using integer and floating point numbers.
+#+begin_src rust
+fn main(){
+    let ( a, b, c, d) = (5.56, 45.56, 75.65 , 98.56);
+    println!("Sum {} Diff {} Mul Div {} Remainder {}", a+b, b-c, c / a, d % a);
+}
+#+end_src
+
+#+RESULTS:
+: Sum 51.120000000000005 Diff -30.090000000000003 Mul Div 13.606115107913672 Remainder 4.040000000000009
+**** Compound Data Types
+Multiple values in one type. Rust has two primitives
+1. Tuple
+2. Array
+
+*** Functions in Rust
+:PROPERTIES:
+:ID:       1cbbc807-91f7-40e9-8fc1-dfa28679615b
+:END:
+
+We define a function using =fn= keyword and following it with function name. For example
+#+begin_src rust
+fn main() {
+    function_name();
+}
+
+fn function_name() {
+    println!("Hello Function!");
+}
+#+end_src
+
+#+RESULTS:
+: Hello Function!
+
+**** Parameters
+Functions can have parameter(s) and type *must* be specified.
+#+begin_src rust
+fn main(){
+    multi(45.5,84.69);
+}
+fn multi(a: f64,b: f64){
+
+    println!("{}",a*b);
+}
+#+end_src
+
+#+RESULTS:
+: 3853.395
+
+**** Expression and expression blocks
+#+begin_src rust
+{
+    a+b;
+    "returned"
+}
+#+end_src
+This is a expression block, statement without =;= is returned at last and before that processed normally.
+**** Function With Return Value
+We must specify return type to a function. We do that using =->=. Like expression block it may be last value or can be explicitly stated using =return= statement.
+#+begin_src rust
+fn main(){
+    println!("{}",multi(45.5,84.69));
+}
+fn multi(a: f64,b: f64)->f64{
+    a*b
+    // or
+    // return a*b;
+}
+#+end_src
+
+#+RESULTS:
+: 3853.395
+*** Control Flow
+:PROPERTIES:
+:ID:       d945437d-ef23-4dfa-848f-b464f5d4c04d
+:END:

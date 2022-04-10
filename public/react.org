@@ -1,0 +1,251 @@
+:PROPERTIES:
+:ID:       6a9f0611-91bf-4c24-9d9b-2f743624275d
+:END:
+#+options: num: 2
+#+title: ReactJS
+#+author: Aniket Singh
+#+hugo_base_dir: ~/hugo
+#+setupfile:
+
+* =React= object
+:PROPERTIES:
+:ID:       c7677718-6d01-449c-9456-75032894b37b
+:END:
+All of the API of react are available through this object. APIs are minimal.
+** =React.createElement()= method
+:PROPERTIES:
+:ID:       6ba11cb7-e839-4133-9334-64f068369e66
+:END:
+#+begin_src js
+React.createElement(element, attributes, 'content/children1', 'content/children2');
+#+end_src
+It creates an element, with =element= (string) tag, and with =attributes= (like ={a : "b", c : "d"}=) which contains content
+
+* =ReactDOM= object
+:PROPERTIES:
+:ID:       09427ab8-6b88-47c0-a546-4bc51c137c37
+:END:
+
+This object contain DOM specific methods, used at outside layer(for example to final render things we built using =React= object)
+** =ReactDOM.render()= method
+:PROPERTIES:
+:ID:       4f834037-9b10-4f0e-bd14-3184d85ec1c4
+:END:
+#+begin_src js
+ReactDOM.render(renderWhatElem, renderWhere [, callback])
+#+end_src
+Controls the contents(children, not the node itself) of the container node. Everthing is replaced on first call and efficiently refreshed afterwards.\\
+*Returns:* a reference to the root =ReactComponent= instance but it may get deprecated.
+Example:
+#+begin_src js
+ReactDOM.render(React.createElement("h1",{ className : "heading" }, "hello world"),
+                document.getElementById("idname"))
+#+end_src
+To make things easier, instead of calling =React.createElement()= we can instead use [[id:59a68247-ffd7-47d4-b198-557dcab614cf][JavaScript XML.]]
+
+* Custom Components
+:PROPERTIES:
+:ID:       ecfea517-67e8-419a-8736-f26288e17f49
+:END:
+** Function Based Components
+:PROPERTIES:
+:ID:       cf8b4544-cf52-496c-bc89-3317263730ec
+:END:
+
+This is just a normal function that returns the content, the element(s) we want. Function is usually then called into [[id:4f834037-9b10-4f0e-bd14-3184d85ec1c4][=ReactDOM.render()= method]].For example
+#+begin_src js
+let compnt = function(){
+return "I am a card";
+};
+//
+//
+//
+ReactDOM.render(
+    compnt(),
+    document.getElementById("card-container")
+);
+#+end_src
+We can also return [[id:6ba11cb7-e839-4133-9334-64f068369e66][=React.createElement()= method]] if we want.
+#+begin_src js
+let compnt = function(){
+    return React.createElement("div",{class = "card" },"I am a card");
+};
+#+end_src
+Or return [[id:59a68247-ffd7-47d4-b198-557dcab614cf][JavaScript XML]]
+#+begin_src js
+let compnt = function(){
+    return (<div className = "card">I am a card</div>)
+};
+//
+// Instead of normal function call, we can also use JSX method
+ReactDOM.createElement(
+    <compnt />,
+    document.getElementById("card-container")
+);
+#+end_src
+** Class Based Components
+:PROPERTIES:
+:ID:       747ce59a-2f5f-4763-9e24-daefddfb8b4d
+:END:
+In this we create a =class= that extends the =React.Component= and implement a =render()= method. And to render then component using [[id:4f834037-9b10-4f0e-bd14-3184d85ec1c4][=ReactDOM.render()= method]], we pass class to the [[id:6ba11cb7-e839-4133-9334-64f068369e66][=React.createElement()= method]] as the only argument. For example
+#+begin_src js
+class Cmpnt extends React.Component {
+    render(){
+        return React.createElement("div",
+                                   { className = "card"},
+                                  "I am a Card");
+        // or
+        // return (
+        //     <div className="card">I am card</div>
+        // )
+    }
+}
+//
+//
+//
+ReactDOM.render(
+    React.createElement(Cmpnt),
+    document.getElementById("card-container")
+)
+#+end_src
+or using [[id:59a68247-ffd7-47d4-b198-557dcab614cf][JavaScript XML]]
+#+begin_src js
+ReactDOM.render(
+    <Cmpnt />,
+    document.getElementById("card-container")
+)
+#+end_src
+
+** Properties
+:PROPERTIES:
+:ID:       d0252e6a-7b56-4687-a0c9-730eda212def
+:END:
+Components can take properties and our components can process them and make return property based.  To pass the value using [[id:59a68247-ffd7-47d4-b198-557dcab614cf][JavaScript XML]] we can simply write properties and their values as attributes for example:
+#+begin_src js
+ReactDOM.render(
+    <CustomComp propName = "prop value">,
+    document.getElementById("card-container")
+);
+#+end_src
+In [[id:cf8b4544-cf52-496c-bc89-3317263730ec][Function Based Components]] we can access properties using props parameter that is passed down to our function. For example
+#+begin_src js
+let CustomComp = function(props){
+        return <div>My properties value is {props.propName}</div>;
+};
+#+end_src
+Using /JavaScript’s destructuring assignment/ we can also write
+#+begin_src js
+let CustomComp = function({propName, propName2}){
+        return <div>My properties value is {propName}</div>;
+};
+#+end_src
+To Set the default properties value, we use =defaultProps=. For example
+#+begin_src js
+
+let CustomComp = function({propName, propName2}){
+        return <div>My properties value is {propName}</div>;
+};
+CustomCom.defaultProps = {
+    propName : "prop default value",
+    propName2 : "prop default value 2"
+};
+#+end_src
+
+In [[id:747ce59a-2f5f-4763-9e24-daefddfb8b4d][Class Based Components]] we can access properties using the =this.props.propName=. =this.props= is read only. For example
+#+begin_src js
+class CustomCom extends React.Component{
+    render(
+        return <div>My properties value is {this.props.propName}</div>;
+    )
+}
+#+end_src
+To set the default properties in Class Based Components we similar to Function Based Components use =defaultProps= property like:
+#+begin_src js
+class CustomCom extends React.Component{
+    render(
+        return <div>My properties value is {this.props.propName}</div>;
+    )
+}
+CustomCom.defaultProps = {
+    propName : "prop default value",
+    propName2 : "prop default value 2"
+}
+#+end_src
+
+** State
+:PROPERTIES:
+:ID:       47c1e430-4c08-42ae-ac8a-4f83c76384a2
+:END:
+State refers to data, different states means data is changing. To re-render a component we don't have to do anything but just need to change the data, React will handle everything else.\\
+
+We read the state using =this.state= object and to update state we use =this.setState()= method, in this react auto-updates the contents of the element. We can directly change =this.state= but we should not. For example
+#+begin_src js
+class CustomCom extends React.Component{
+    constructor(){
+        super();
+        this.state = ();
+    };
+    onSomeEvent(event){
+        this.setState({
+            stateName : event.target.value;
+        });
+    }
+    render(
+        return <div onChange={event => this.onSomeEvent(event)}>
+                    My properties value is {this.state.stateName}
+                </div>;)
+}
+#+end_src
+Calling =super()= is required to use =this= in constructor. Generally events are responsible for state changes, that is handled by React's [[id:38aa56d8-cf34-4411-9fdb-793514dd3190][Event Handling]]. Also it is not ideal to set (default /initial)value of =this.state= to value passed(as =this.props.propName=).
+We cannot directly use state with [[id:cf8b4544-cf52-496c-bc89-3317263730ec][Function Based Components]], for that we will need hooks.
+** Accessing components from outside
+:PROPERTIES:
+:ID:       847ecfce-1fe8-457e-b80c-74dbfacbab90
+:END:
+As we know [[id:4f834037-9b10-4f0e-bd14-3184d85ec1c4][=ReactDOM.render()= method]] returns the root component, which we can use to access the methods of the component.
+#+begin_src js
+const myCardComponent = ReactDOM.render(
+                            <div propName = "Prop Value" />,
+                            document.getElementById('card-container'));
+#+end_src
+While we can access the component from the outside and can change its functioning, we should not. At most we should only use this to access the state.
+** Life Cycle
+1. *Mounting*
+   When component is added to the DOM.
+   After this =componentDidMount()= of component is called and here we can do inital things that requires the DOM(other stuff should be in constructor).
+2. *Updating*
+   Component is updated using =setState()=.
+   Before =setState()= we can use =getSnapshotBeforeUpdate()= method to receive previous properties and states as argument.And returns a snapshot value.\\
+   After update =componentDidUpdate()= is called. Generally used to compare old and new values.//
+   There is also =shouldComponentUpdate()=, which can stop component from re-rendering.
+3. *Unmounting*
+   Component is removed from the DOM.
+   But before it =componentWillUnmount()= is called where we can do stuff just before component is unmounted.
+* Event Handling
+:PROPERTIES:
+:ID:       38aa56d8-cf34-4411-9fdb-793514dd3190
+:END:
+React uses its own event handlers. It uses camel casing(e.g. HTML's =onclick= vs =onClick=).
+*Syntax*
+#+begin_src js
+onChange =(event=> this.onSomeEvent())
+// or
+onChange = this.onSomeEvent.bind(this)
+#+end_src
+or using =constructor()=
+#+begin_src js
+constructor() {
+super();
+this.state = {};
+this.onSomeEvent = this.onSomeEvent.bind(this);
+}
+//
+//
+onChange={this.onSomeEvent}
+#+end_src
+This increases performance a bit. Or we can use(more modern method) function as class property as
+#+begin_src js
+onSomeEvent = (event) => {
+    //code
+}
+#+end_src

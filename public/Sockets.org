@@ -1,0 +1,101 @@
+:PROPERTIES:
+:ID:       4be2fe45-a5f1-4d89-b415-e6b34ffabb3c
+:END:
+#+title: 2 Sockets
+*Table of Contents*
+
+- [[#what-are-sockets][What are Sockets?]]
+
+  - [[#two-types-of-internet-sockets][Two Types of Internet sockets]]
+  - [[#network-theory][Network Theory]]
+
+- [[#footnotes][Footnotes]]
+
+* What are Sockets?
+  :PROPERTIES:
+  :CUSTOM_ID: what-are-sockets
+  :END:
+
+Sockets are a way to communicate with other programs using standard UNIX
+file(everything in UNIX is file, so it doesn't mean much?)
+descriptors.Unix programs, to do any sort of I/O, read or write to a
+file descriptor[fn:1].\\
+*/How to get file descriptor for network communication?/*\\
+Simply make a call to the =socket()= system routine, to get socket
+descriptor. We can communicate /through/ it using =send()=(man send) and
+=recv()=(man receive).\\
+There are multiple kinds of socket for example DARPA internet
+addresses(internet sockets), path names on a local node/machine(Unix
+sockets) etc. We will talk about internet sockets.
+
+** Two Types of Internet sockets
+   :PROPERTIES:
+   :CUSTOM_ID: two-types-of-internet-sockets
+   :END:
+
+"Stream Sockets"(=SOCK_STEAM=) and "Datagram Sockets"(=SOCK_DGRAM=) or
+commonly called as "connectionless sockets".\\
+*Steam Sockets* are a two-way connected communication steams(you [give
+1,2] you will receive [1,2], error free). Telnet(tcp part of tcp/ip, ip
+deals with routing and not data integrity) Uses it.\\
+*/How do stream sockets achieve this high level of data transmission
+quality?/* They use a protocol called "The Transmission Control
+Protocol".\\
+*Datagram Sockets*(also use IP for routing but not TCP). Used in tftp,
+dhcpcd(DHCP client), online gaming, video/audio call etc.If you send a
+datagram, it may arrive. It may arrive out of order. If it arrives, the
+data within the packet will be error-free.
+
+** Network Theory
+   :PROPERTIES:
+   :CUSTOM_ID: network-theory
+   :END:
+
+*Data Encapsulation* ,basically, it says this: a packet is born, the
+packet is wrapped ("encapsulated") in a header (and rarely a footer) by
+the first protocol (say, the TFTP protocol), then the whole thing (TFTP
+header included) is encapsulated again by the next protocol (say, UDP),
+then again by the next (IP), then again by the final protocol on the
+hardware (physical) layer (say, Ethernet).\\
+
+#+BEGIN_QUOTE
+  it means, When another computer receives the packet, the hardware
+  strips the Ethernet header, the kernel strips the IP and UDP headers,
+  the TFTP program strips the TFTP header, and it finally has the data.
+#+END_QUOTE
+
+Now layer network model describes a system of network functionality that
+has advantages over other models for instance socket programs that work
+without caring about how data is physically transmitted(because programs
+on lower level deal with that for us, so kernel maybe?).\\
+
+/Layers of the full-blown model. Remember this for network class exams:/
+
+- *Application* User interaction happens here
+- Presentation
+- Session
+- Transport
+- Network
+- Data Link
+- *Physical* well, the hardware level, your ethernet, serial etc.
+
+A layered model more consistent with Unix might be:
+
+- /Application Layer/ (telnet, ftp, etc.)
+- +/Presentation Layer/+
+- +/Session layer/+
+- Host-to-Host /Transport Layer/ (TCP, UDP)
+- /Internet Layer/(Network Layer) (IP and routing)
+- +/Data Link layer/+
+- /Network Access Layer/(Physical) (Ethernet, wi-fi, or whatever)
+
+Now to build a simple packet(send data out) we simply need to use
+=send()=(in case of stream) or =sendto()=(in case of datagram) and as
+mentioned above, kernel does the rest of the work.
+
+#+BEGIN_HTML
+  <!-- Footnotes -->
+#+END_HTML
+
+[fn:1] File Descriptor: An integer associated with an open file(and
+       again that file can be anything)

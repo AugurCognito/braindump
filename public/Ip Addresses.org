@@ -1,0 +1,280 @@
+:PROPERTIES:
+:ID:       faae1be1-0640-4464-a9a5-fc23defc8b82
+:END:
+#+title: 3 IP addresses
+
+* IP Addresses, struct and Data Mungling
+  :PROPERTIES:
+  :CUSTOM_ID: ip-addresses-struct-and-data-mungling
+  :END:
+
+*Table of Contents*
+
+- [[#ip-addresses-struct-and-data-mungling][IP Addresses, struct and
+  Data Mungling]]
+
+  - [[#address][Address]]
+
+    - [[#subnets][Subnets]]
+    - [[#port-numbers][Port Numbers]]
+
+  - [[#byte-order][byte order]]
+  - [[#structs][=struct=s]]
+  - [[#ip-addresses-part-deux][IP Addresses, Part Deux]]
+
+    - [[#private-networks][Private networks]]
+
+- [[#footnotes][Footnotes]]
+
+
+** Address
+   :PROPERTIES:
+   :CUSTOM_ID: address
+   :END:
+
+*** Subnets
+    :PROPERTIES:
+    :CUSTOM_ID: subnets
+    :END:
+
+It's sometimes convenient to declare that "this first part of this IP
+address up through this bit is the network portion of the IP address,
+and the remainder is the host portion.What that actually means is in
+192.0.2.12 192.0.2.0(first three bytes) is the network address and 12 is
+the host[fn:1].\\
+The network portion of the IP address(192.0.2.0) is described by
+something called the *netmask*[fn:2],which you bitwise-AND with the IP
+address to get the network number(network address without host) out of
+it. Netork Number = netmask bitwise-AND IP address. IP is =192.0.2.12=,
+then your network is =192.0.2.12= AND =255.255.255.0= which gives
+=192.0.2.0=.\\
+No ok basically 255.255.255.0 means class c addresses, 255.255.255.0
+means class b. A subnet divides network range into local addresses.
+[[https://www.youtube.com/watch?v=s_Ntt6eTn94][This video]] explains it
+much better.
+
+*** Port Numbers
+    :PROPERTIES:
+    :CUSTOM_ID: port-numbers
+    :END:
+
+It is a *16-bit number* that's like the local address for the
+connection. It is used to differentiate between the services(not just
+web related). And to see all the assigned poets simply go to your
+computer's =/etc/services=.
+
+** byte order
+   :PROPERTIES:
+   :CUSTOM_ID: byte-order
+   :END:
+
+if you want to represent the two-byte hex number, say b34f, you'll store
+it in two sequential bytes b3 followed by 4f. This number, stored with
+the big end first, is called *Big-Endian*.Also called Network Byte
+order(because thats the type easier to deal with)\\
+
+Anything with an Intel or Intel-compatible processor, store the bytes
+reversed, so b34f would be stored in memory as the sequential bytes 4f
+followed by b3. This storage method is called *Little-Endian*.
+
+Our computer stores numbers in /host byte order/. Now how can we convert
+little-endian to network byte order? A function will do that for us(or
+leave as it is if its in big-endian). And with numbers, there are two
+types, short(2 bytes) and long(4 bytes).  To convert short we use
+=htons=(read "Host to Network short"). We can use every sensible
+combination of 'h','h','l','s'.
+
+| function    | description             |
+|-------------+-------------------------|
+| =htons()=   | host to network short   |
+| =htonl()=   | host to network long    |
+| =ntohs()=   | network to host short   |
+| =ntohl()=   | network to host long    |
+
+Apparently is for 32bit only.
+
+** =struct=s
+   :PROPERTIES:
+   :CUSTOM_ID: structs
+   :END:
+
+As previously mentioned a socket descriptor is of the type
+=int=.
+*** =struct addrinfo=
+is used to prep the socket address structures
+for subsequent use. It is also used host name lookups and service name
+lookups.
+
+#+BEGIN_SRC C
+    struct addrinfo {
+        int              ai_flags;     // AI_PASSIVE, AI_CANONNAME, etc.
+        int              ai_family;    // AF_INET, AF_INET6, AF_UNSPEC
+        int              ai_socktype;  // SOCK_STREAM, SOCK_DGRAM
+        int              ai_protocol;  // use 0 for "any"
+        size_t           ai_addrlen;   // size of ai_addr in bytes
+        struct sockaddr *ai_addr;      // struct sockaddr_in or _in6
+        char            *ai_canonname; // full canonical hostname
+
+        struct addrinfo *ai_next;      // linked list, next node
+    };
+#+END_SRC
+
+You'll load this struct up a bit, and then call =getaddrinfo()=. It'll
+return a pointer to a new linked list of these structures filled out
+with all the goodies you need.
+
+We can force it to use IPv4 or IPV6 using =ai_family= or leave as it is
+for machine to decide. We can also see that =ai_addr= is a pointer to a
+=stuct sockaddr=. A call to =getaddrinfo()= to fill out your
+=struct addrinfo= for you is all you'll need[fn:3]. Some =structs= are
+IPv4, some are IPv6, and some are both.
+*** =struct sockaddr=
+Anyway, the =struct sockaddr= holds socket address information for types
+of sockets.
+
+#+BEGIN_SRC C++
+    struct sockaddr {
+        unsigned short    sa_family;    // address family, AF_xxx
+        char              sa_data[14];  // 14 bytes of protocol address
+    }; 
+#+END_SRC
+
+Here =sa_family= can be a variety of things, but it will be mostly
+IPv4(AF_INET) or IPv6(INET6) in our discussion. =sa_data= contains a
+destination address and port number of the socket.
+*** =struct sockaddr_in=
+To deal with IPv4 we have =stuct sockaddr_in= (in for internet). We can cast =sockaddr= to
+=sockaddr_in= and vice-Versa to use it with =connect()=.
+
+#+BEGIN_SRC C++
+    // (IPv4 only--see struct sockaddr_in6 for IPv6)
+
+    struct sockaddr_in {
+        short int          sin_family;  // Address family, AF_INET
+        unsigned short int sin_port;    // Port number
+        struct in_addr     sin_addr;    // Internet address
+        unsigned char      sin_zero[8]; // Same size as struct sockaddr
+    };
+#+END_SRC
+
+=sin_zero= shoudl be set to all zeros with the function [[https://en.cppreference.com/w/c/string/byte/memset][=memset()=]] (it
+copies =char= in a =char= array), it is inculded to pad the structure to
+the length of a =struct sockaddr=.\\
+=sin_family= corresponds to the =sa_family= in =sockaddr=. And at last,
+=sin_port= should be in /Network Byte Order/.
+
+*** =struct in_addr=
+
+#+BEGIN_SRC C++
+    // (IPv4 only--see struct in6_addr for IPv6)
+
+    // Internet address (a structure for historical reasons)
+    struct in_addr {
+        uint32_t s_addr; // that's a 32-bit int (4 bytes)
+    };
+#+END_SRC
+
+It used to be a union long time ago. If =ina= is of type =sockaddr_in=,
+then =ina.sin_addr.s_addr= references the 4-byte IP address /in network
+byte order/.\\
+Same is true for IPv6 but with
+*** =struct sockaddr_in6= and =struct in6_addr=
+#+BEGIN_SRC C++
+    // (IPv6 only--see struct sockaddr_in and struct in_addr for IPv4)
+
+    struct sockaddr_in6 {
+        u_int16_t       sin6_family;   // address family, AF_INET6
+        u_int16_t       sin6_port;     // port number, Network Byte Order
+        u_int32_t       sin6_flowinfo; // IPv6 flow information
+        struct in6_addr sin6_addr;     // IPv6 address
+        u_int32_t       sin6_scope_id; // Scope ID
+    };
+
+    struct in6_addr {
+        unsigned char   s6_addr[16];   // IPv6 address
+    };
+#+END_SRC
+
+
+Above one for IPv6, but what if we don't want to care about the type? we
+use. =sockaddr_storage=
+
+#+BEGIN_SRC C++
+    struct sockaddr_storage {
+        sa_family_t  ss_family;     // address family
+
+        // all this is padding, implementation specific, ignore it:
+        char      __ss_pad1[_SS_PAD1SIZE];
+        int64_t   __ss_align;
+        char      __ss_pad2[_SS_PAD2SIZE];
+    };
+#+END_SRC
+
+It is big enough to hold both IPv4 and IPv6 and can cast in any one.
+Here =sa_family= will provide us with family type, then we can use to
+cast.
+
+** IP Addresses, Part Deux
+   :PROPERTIES:
+   :CUSTOM_ID: ip-addresses-part-deux
+   :END:
+
+We will talk about a bunch of functions to manipulate IP addresses. OK?
+lets start. Suppose we want to store =139.120.12.57= into
+=struct sockaddr_in ina=, we will use =inet_pton()=(presentation to
+network or printable to network, whichever one you wanna choose). It
+takes 3 parameters, first type of address(=AF_INET= or =AF_INET6=),
+second the input string and third, where you want to store the address.
+
+#+BEGIN_SRC C++
+        struct sockaddr_in sa; // IPv4
+        struct sockaddr_in6 sa6; // IPv6
+        
+        inet_pton(AF_INET, "10.12.110.57", &(sa.sin_addr)); // IPv4
+        inet_pton(AF_INET6, "2001:db8:63b3:1::3490", &(sa6.sin6_addr)); // IPv6
+#+END_SRC
+
+=inet_pton= returns -1 on error and 0 if address is messed up. And to
+convert binary to string we can use =inet_ntop()= function.
+
+#+BEGIN_SRC C++
+    // IPv4:
+
+    char ip4[INET_ADDRSTRLEN];  // space to hold the IPv4 string
+    struct sockaddr_in sa;      // pretend this is loaded with something
+
+    inet_ntop(AF_INET, &(sa.sin_addr), ip4, INET_ADDRSTRLEN);
+
+    printf("The IPv4 address is: %s\n", ip4);
+
+    // IPv6:
+
+    char ip6[INET6_ADDRSTRLEN]; // space to hold the IPv6 string
+    struct sockaddr_in6 sa6;    // pretend this is loaded with something
+
+    inet_ntop(AF_INET6, &(sa6.sin6_addr), ip6, INET6_ADDRSTRLEN);
+
+    printf("The address is: %s\n", ip6);
+#+END_SRC
+
+These only work with numeric addresses and not with DNS lookups on a
+hostname.
+
+*** Private networks
+    :PROPERTIES:
+    :CUSTOM_ID: private-networks
+    :END:
+
+To hide network from external network(for security and stuff) firewall
+translates 'internal' IP address to 'external' using /Network Address
+Translation/(NAT for short).
+
+[fn:1] There are(were, ancient stuff) multiple classes of subnets, A
+       class means first byte is for adress and reamining three for the
+       host. B for two for network part and two for host and one for
+       host in C type.
+
+[fn:2] Netmask looks like =255.255.255.0=
+
+[fn:3] Before =stuct addrinfo= was a thing, we used to pack all the
+       stuff mentioned manually

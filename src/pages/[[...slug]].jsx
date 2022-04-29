@@ -11,6 +11,7 @@ const Note = ({ title, hast, backlinks }) => {
     <main>
       <Head>
         <title>{title}</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism-coy.css" integrity="sha512-epQrFDNiuRFVbCb6pdYk2XnL/mqmDGLph8DuExKxa3IoKy7CAZkw2PKK9I/xFrLYV5Dij1XdwuT5DHkhtpMd0Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       </Head>
       <h1>{title}</h1>
       <Rehype hast={hast} />
@@ -26,6 +27,8 @@ const Note = ({ title, hast, backlinks }) => {
           </ul>
         </section>
       )}
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/components/prism-core.js" integrity="sha512-jhk8ktzYxeUWJ/vx3Lzp53xE0Jgsp+UxA3wDyRSYeMBdPutgCp6jiGvTjyZm+R7cn3Lu/0MnEIR421EOdl3qAg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/plugins/autoloader/prism-autoloader.js" integrity="sha512-xDNPOLdUk1MQjfkY6Qw0HrMmu2liCO8u0jcA1Av6+KNJM1QdSP3drDCPGCVT/83UACZTLPwYyIDFH1hWNUd2ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </main>
   );
 };

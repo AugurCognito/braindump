@@ -7,31 +7,30 @@
 #+setupfile:
 
 * System programming
+:PROPERTIES:
+:ID:       62edaf96-8810-43a4-98ae-4a008abbf759
+:END:
 ** Languages
-- [[id:c8656b43-6433-403b-a671-1697c7839673][Rust Programming language]]
-* [[id:71978ada-b533-440c-a2e4-d6110f6bc085][Network programming]]
+- [[id:9c52b828-7894-4b14-adfb-4f1e18db398a][C++]]
+- [[id:c8656b43-6433-403b-a671-1697c7839673][Rust]]
+* Network programming
 ** Network Programming In C
 :PROPERTIES:
 :ID:       db228137-c3ca-4dfd-9361-f209a836704b
 :END:
-*** Beej's Guide to network Programming
-:PROPERTIES:
-:ID:       b606e19b-411b-4fe9-a192-fe951c978ba7
-:END:
-[[https://beej.us/guide/bgnet/html/][beej's guide to network programming]]
-**** Notes
-+ [[id:4be2fe45-a5f1-4d89-b415-e6b34ffabb3c][2 Sockets]]
-+ [[id:faae1be1-0640-4464-a9a5-fc23defc8b82][3 IP addresses]]
-+ [[id:c76ebd62-fc90-4a8d-bfce-b670467488ab][4 from IPv4 to IPv6]]
-+ [[id:cb5b176b-e491-457a-8c09-1b9a36f883fe][5 System Calls or Bust]]
-+ [[id:f4c00ee8-b679-4813-8432-ddc0ddc3aca1][6 Client-Server Background]]
+*Resources:* [[https://beej.us/guide/bgnet/html/][Beej's guide to network programming]]
+  - [[id:4be2fe45-a5f1-4d89-b415-e6b34ffabb3c][2 Sockets]]
+  - [[id:faae1be1-0640-4464-a9a5-fc23defc8b82][3 IP addresses]]
+  - [[id:c76ebd62-fc90-4a8d-bfce-b670467488ab][4 from IPv4 to IPv6]]
+  - [[id:cb5b176b-e491-457a-8c09-1b9a36f883fe][5 System Calls or Bust]]
+  - [[id:f4c00ee8-b679-4813-8432-ddc0ddc3aca1][6 Client-Server Background]]
 * Web development
-** FrontEnd
+** Front-End
 :PROPERTIES:
 :ID:       181bd00e-078d-4fc4-9f8d-6305539e5949
 :END:
 *** [[id:6a9f0611-91bf-4c24-9d9b-2f743624275d][ReactJS]]
-** Backend
+** Back-End
 :PROPERTIES:
 :ID:       149a1ae5-21c6-4e76-8fa9-9af701573fc4
 :END:

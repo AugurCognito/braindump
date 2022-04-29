@@ -1,0 +1,79 @@
+:PROPERTIES:
+:ID:       9c52b828-7894-4b14-adfb-4f1e18db398a
+:END:
+#+title: C++
+
+* =sizeof= operator in C++
+:PROPERTIES:
+:ID:       6f9cc4fc-a38c-4e69-875e-01a7aacd9581
+:END:
+Returns the size in bytes of an expression's return type or a type name. Return type is constant =size_t=. Usage syntax
+#+begin_src c++
+sizeof (type)
+sizeof (expression)
+#+end_src
+First one returns size of type, second one returns size of type obtained after processing expression.
+* =,= comma operator in C++
+:PROPERTIES:
+:ID:       0eb56ab2-e453-4d4d-9149-d6b9a749a330
+:END:
+Left hand expression is evaluated, result is discarded. Returned result is evaluated expression on right hand side.
+#+begin_src C++ :includes <iostream>
+int a = 15;
+int b = 84;
+int c = (a, b++);
+printf("%d",c);
+#+end_src
+
+#+RESULTS:
+: 84
+* Named Cast in C++
+:PROPERTIES:
+:ID:       d776459a-8446-42d7-979e-880b0bfa429b
+:END:
+** =staic_cast=
+Converts between types using implicit and user-defined conversions(=const= should not be involved).
+#+begin_src C++
+static_cast<type_to_converted_to>(expression)
+#+end_src
+** =const_cast=
+Converts constness of a object. Changes a =const= object to =nonconst=
+** =reinterpret_cast=
+Converts to new type between reinterpreting the underlying bit pattern. Treats the expression as if it had the new type all along.
+* Error Handling in C++
+:PROPERTIES:
+:ID:       dcecb623-9275-43ee-bf2f-ac3a3bdb9fab
+:END:
+** =throw= expression
+=throw= /raises/ exceptions(=runtime_error= for example). We use it after error has been detected and after it the function terminates. For example
+#+begin_src C++ :includes <stdexcept> <iostream>
+throw std::runtime_error("Error!!!");
+#+end_src
+
+#+RESULTS:
+
+will result in error.
+** =try= and =catch= blocks
+#+begin_src C++
+try{
+    //program
+} catch (exception-declaration){
+    //hanlder-statement
+} catch (exception-declaration){
+    //hanlder-statement
+}
+#+end_src
+for example
+#+begin_src C++
+try {
+program
+    }
+#+end_src
+* Object Oriented Programming in C++
+:PROPERTIES:
+:ID:       f1e59892-9c7b-46f8-9bca-4302bafb609f
+:END:
+** Virtual Function in C++
+:PROPERTIES:
+:ID:       55f3b42f-6a71-47da-bd2e-68c117c37329
+:END:

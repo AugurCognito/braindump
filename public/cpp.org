@@ -8,7 +8,7 @@
 :ID:       6f9cc4fc-a38c-4e69-875e-01a7aacd9581
 :END:
 Returns the size in bytes of an expression's return type or a type name. Return type is constant =size_t=. Usage syntax
-#+begin_src c++
+#+begin_src cpp
 sizeof (type)
 sizeof (expression)
 #+end_src
@@ -18,7 +18,7 @@ First one returns size of type, second one returns size of type obtained after p
 :ID:       0eb56ab2-e453-4d4d-9149-d6b9a749a330
 :END:
 Left hand expression is evaluated, result is discarded. Returned result is evaluated expression on right hand side.
-#+begin_src C++ :includes <iostream>
+#+begin_src cpp :includes <iostream>
 int a = 15;
 int b = 84;
 int c = (a, b++);
@@ -53,8 +53,10 @@ throw std::runtime_error("Error!!!");
 #+RESULTS:
 
 will result in error.
+
+Full list of errors is [[https://en.cppreference.com/w/cpp/error/exception][here]].
 ** =try= and =catch= blocks
-#+begin_src C++
+#+begin_src cpp
 try{
     //program
 } catch (exception-declaration){
@@ -64,11 +66,74 @@ try{
 }
 #+end_src
 for example
-#+begin_src C++
+#+begin_src cpp :includes <stdexcept> <iostream>
 try {
-program
-    }
+    throw std::runtime_error("Some error!!!");
+} catch(std::runtime_error err) {
+    std::cout<<err.what()<<" spotted";
+}
 #+end_src
+
+#+RESULTS:
+: Some error!!! spotted
+
+There can be multiple =catch= statements, each handling different kind of exceptions. =try= blocks can be nested and if inner block fails to handle the exception(by not having appropriate =catch= block) then inner block is terminated and error is transferred to the outer =try= block.
+
+The exceptions types defines only a data function named =what= which returns a C-type string in which we usually store our error information.
+* Functions in C++
+:PROPERTIES:
+:ID:       60c255b7-53d8-429b-b170-732073603c21
+:END:
+* IO library in C++
+:PROPERTIES:
+:ID:       601fc7c3-cec4-4681-ae22-6ff2d12ea959
+:END:
+C++ deals with input and output using certain types.
+In addition to these we have other types too.
+- =iostream= defines types to read from and write to streams
+  + =iostream=
+  + =ostream=
+  + =iostream= which is capable of both reading and writing
+- =fstream= defines types to read from and write to files
+  + =ifsteam=
+  + =ofstream=
+  + =fstream=
+- =sstream= define type to read and write in-memory =stribg=
+  + =istringstream=
+  + =ostringstream=
+  + =stringstream=
+There are also there siblings to handle =wchar_t= data, which have additional =w= in front of above name.
+
+** Quirks of IO library in C++
+:PROPERTIES:
+:ID:       5ad60027-a2a4-41f6-8d14-44c83843cc3c
+:END:
++ *We cannot copy paste or assign IO Objects*
++ We can instead access and manipulate /condition state/ of a stream object using functions and flags.
+*** Flags
++ =std::ios_base::iostate=
++ =std::ios_base::badbit=
++ =std::ios_base::failbit=
++ =std::ios_base::=
+*** Methods
+** Stream input output in C++
+:PROPERTIES:
+:ID:       b15b49ee-4e44-4035-80de-0aefbbd71ff1
+:END:
+- =istream= type provides input operations
+  + =cin= is an =istream= object
+  + =>>= operator reads input from =istrean object=
+  + =getline= reads input from a =istream= and stores it in a given =string=
+- =ostream= provides output operations
+  + =cout= is an =ostream= object
+  + =cerr= is an =ostream= object associated with =stderr= error stream
+  + =<<= operator writes output to a =ostream= object
+** File Input/Output
+:PROPERTIES:
+:ID:       2ed5090d-c3e0-4359-b0fa-2dc9d810ec56
+:END:
+
+To use
 * Object Oriented Programming in C++
 :PROPERTIES:
 :ID:       f1e59892-9c7b-46f8-9bca-4302bafb609f

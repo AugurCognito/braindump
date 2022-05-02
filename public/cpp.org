@@ -2,7 +2,6 @@
 :ID:       9c52b828-7894-4b14-adfb-4f1e18db398a
 :END:
 #+title: C++
-
 * =sizeof= operator in C++
 :PROPERTIES:
 :ID:       6f9cc4fc-a38c-4e69-875e-01a7aacd9581
@@ -91,7 +90,7 @@ The exceptions types defines only a data function named =what= which returns a C
 C++ deals with input and output using certain types.
 In addition to these we have other types too.
 - =iostream= defines types to read from and write to streams
-  + =iostream=
+  + =istream=
   + =ostream=
   + =iostream= which is capable of both reading and writing
 - =fstream= defines types to read from and write to files
@@ -103,7 +102,6 @@ In addition to these we have other types too.
   + =ostringstream=
   + =stringstream=
 There are also there siblings to handle =wchar_t= data, which have additional =w= in front of above name.
-
 ** Quirks of IO library in C++
 :PROPERTIES:
 :ID:       5ad60027-a2a4-41f6-8d14-44c83843cc3c
@@ -114,8 +112,52 @@ There are also there siblings to handle =wchar_t= data, which have additional =w
 + =std::ios_base::iostate=
 + =std::ios_base::badbit=
 + =std::ios_base::failbit=
-+ =std::ios_base::=
++ =std::ios_base::goodbit=
 *** Methods
++ =stream.eof()=
++ =stream.fail()=
++ =stream.bad()=
++ =stream.bad()=
++ =stream.good()=
++ =stream.clear()=
++ =stream.clear(flags)=
++ =stream.setstate(flags)=
++ =stream.rdstate()=
+*** Buffers in C++
+:PROPERTIES:
+:ID:       2c37b3f3-fb1d-440a-a05b-24c8f74189e6
+:END:
+Buffer store data(for performance reasons) before writing to a stream. *Flush* is writing of data to the stream(device or file). A flush can happen because
++ Program completes normally.
++ If buffer becomes full.
++ Explicitly using manipulators(such as =endl=).
++ Using =unitbuff= manipulation
++ If one output stream is connected to another(=cin= and =cerr= both tied to =cout=) then whenever tied stream is modified, then the buffer of tied stream is flushed.
+**** Manipulators
++ =endl= ends the line and flushes the buffer
++ =ends= inserts a null character and flushes the buffer
++ =flush= flushes the buffer but does not add anything to the end
++ =unitbuff= flushes after every output from that point onward
++ =nounitbuff= returns to normal buffering
+*** Tying Input and Output Stream
+:PROPERTIES:
+:ID:       d7a2362b-ce4b-44f7-8f4b-f2721d24eefb
+:END:
+When an input stream is tied with output stream, any attempt to use input stream causes flush to happen. For example =cin= and =cout= are tied. We can even tie two output streams, =cerr= and =cout= are example of such.
+
+There are two overloaded =tie= methods. One takes no argument returns pointer to =ostream= if it exists, otherwise a null pointer. Second one take a pointer to an =ostream= and ties itself to that stream.
+
+#+begin_src cpp :includes <iostream>
+std::cout<<"Hello!!!"<<std::endl;
+std::ostream *cout_new = std::cin.tie();
+*cout_new<<"Should work as cout";
+#+end_src
+
+#+RESULTS:
+| Hello!!! |      |    |      |
+| Should   | work | as | cout |
+
+
 ** Stream input output in C++
 :PROPERTIES:
 :ID:       b15b49ee-4e44-4035-80de-0aefbbd71ff1

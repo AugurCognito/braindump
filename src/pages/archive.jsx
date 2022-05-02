@@ -10,10 +10,6 @@ const Archive = ({ posts }) => {
         <title>{'Archive'}</title>
       </Head>
       <h1>{'Archive'}</h1>
-      <div>
-        <div>{'Count'}</div>
-        <div>{posts.count}</div>
-      </div>
       <ul>
         {posts.map((p) => (
           <li key={p.path}>

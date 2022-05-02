@@ -11,7 +11,7 @@ const Note = ({ title, hast, backlinks }) => {
     <main>
       <Head>
         <title>{title}</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism-coy.css" integrity="sha512-epQrFDNiuRFVbCb6pdYk2XnL/mqmDGLph8DuExKxa3IoKy7CAZkw2PKK9I/xFrLYV5Dij1XdwuT5DHkhtpMd0Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-dark.min.css" integrity="sha512-Njdz7T/p6Ud1FiTMqH87bzDxaZBsVNebOWmacBjMdgWyeIhUSFU4V52oGwo3sT+ud+lyIE98sS291/zxBfozKw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       </Head>
       <h1>{title}</h1>
       <Rehype hast={hast} />

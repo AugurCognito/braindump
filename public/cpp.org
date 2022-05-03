@@ -147,6 +147,7 @@ When an input stream is tied with output stream, any attempt to use input stream
 
 There are two overloaded =tie= methods. One takes no argument returns pointer to =ostream= if it exists, otherwise a null pointer. Second one take a pointer to an =ostream= and ties itself to that stream.
 
+#+header: :results output
 #+begin_src cpp :includes <iostream>
 std::cout<<"Hello!!!"<<std::endl;
 std::ostream *cout_new = std::cin.tie();
@@ -154,8 +155,8 @@ std::ostream *cout_new = std::cin.tie();
 #+end_src
 
 #+RESULTS:
-| Hello!!! |      |    |      |
-| Should   | work | as | cout |
+: Hello!!!
+: Should work as cout
 
 
 ** Stream input output in C++
@@ -174,8 +175,22 @@ std::ostream *cout_new = std::cin.tie();
 :PROPERTIES:
 :ID:       2ed5090d-c3e0-4359-b0fa-2dc9d810ec56
 :END:
+=fstream= header provides 3 types =ifstream=, =ofstream= and =fstream=. In addition to normal functionality of =iostream=, objects of these type have additional members.
 
-To use
+There are a few ways to initialize object of these type.
+
+#+begin_src cpp
+fstream fstrm("file");
+fstream fstrm("file","mode");
+fstream fstrm;
+fstrm.open("file");//returns void
+fstrm.open("file","mode");
+#+end_src
+Closing a file is simple.
+#+begin_src cpp
+fstrm.close();
+#+end_src
+
 * Object Oriented Programming in C++
 :PROPERTIES:
 :ID:       f1e59892-9c7b-46f8-9bca-4302bafb609f

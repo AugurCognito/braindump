@@ -11,7 +11,7 @@ const Note = ({ title, hast, backlinks }) => {
     <main>
       <Head>
         <title>{title}</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-dark.min.css" integrity="sha512-Njdz7T/p6Ud1FiTMqH87bzDxaZBsVNebOWmacBjMdgWyeIhUSFU4V52oGwo3sT+ud+lyIE98sS291/zxBfozKw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css" integrity="sha512-vswe+cgvic/XBoF1OcM/TeJ2FW0OofqAVdCZiEYkd6dwGXthvkSFWOoGGJgS2CW70VK5dQM5Oh+7ne47s74VTg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       </Head>
       <h1>{title}</h1>
       <Rehype hast={hast} />
@@ -29,6 +29,8 @@ const Note = ({ title, hast, backlinks }) => {
       )}
       <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/components/prism-core.js" integrity="sha512-jhk8ktzYxeUWJ/vx3Lzp53xE0Jgsp+UxA3wDyRSYeMBdPutgCp6jiGvTjyZm+R7cn3Lu/0MnEIR421EOdl3qAg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/plugins/autoloader/prism-autoloader.js" integrity="sha512-xDNPOLdUk1MQjfkY6Qw0HrMmu2liCO8u0jcA1Av6+KNJM1QdSP3drDCPGCVT/83UACZTLPwYyIDFH1hWNUd2ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+      <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "6255acde30064826a35892ce7fca4e86"}'></script>
     </main>
   );
 };

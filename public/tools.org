@@ -1,0 +1,42 @@
+:PROPERTIES:
+:ID:       9ccb22ec-e364-41f0-8d24-73be0f78f9c5
+:END:
+#+title: Tools and TILs
+
+* =nethogs=
+:PROPERTIES:
+:ID:       d44915a3-36dd-45ed-ad81-1755cc44e4ab
+:END:
+*Use:* Monitors the network usage
+*Usage*
+#+begin_src shell
+sudo nethogs [option] [device]
+#+end_src
+both =option= and =device= are optional
+* =tcpdump=
+:PROPERTIES:
+:ID:       0aedaeef-5edf-4e19-a3ae-3220c6713f15
+:END:
+*Use:* Capture and filters TCP/IP packets over a network/interface or file.
+*Usage*
+#+begin_src shell
+tcpdump -i [interface]
+#+end_src
+To list all interfaces
+#+begin_src shell
+tcpdump -D
+#+end_src
+More detail at
+#+begin_src shell
+man tcpdump
+#+end_src
+* =pw=
+:PROPERTIES:
+:ID:       bf65a0cb-3677-4e30-8643-072aa81439de
+:END:
+*Use:* Monitors recent lines of output from a stream
+*Usage*
+#+begin_src shell
+program | pw [-i interval] [-n number of lines]
+#+end_src
+*man* [[https://www.kylheku.com/cgit/pw/tree/pw.1][here]]

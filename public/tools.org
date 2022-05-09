@@ -8,6 +8,7 @@
 :ID:       d44915a3-36dd-45ed-ad81-1755cc44e4ab
 :END:
 *Use:* Monitors the network usage
+
 *Usage*
 #+begin_src shell
 sudo nethogs [option] [device]
@@ -18,6 +19,7 @@ both =option= and =device= are optional
 :ID:       0aedaeef-5edf-4e19-a3ae-3220c6713f15
 :END:
 *Use:* Capture and filters TCP/IP packets over a network/interface or file.
+
 *Usage*
 #+begin_src shell
 tcpdump -i [interface]
@@ -35,8 +37,19 @@ man tcpdump
 :ID:       bf65a0cb-3677-4e30-8643-072aa81439de
 :END:
 *Use:* Monitors recent lines of output from a stream
+
 *Usage*
 #+begin_src shell
 program | pw [-i interval] [-n number of lines]
 #+end_src
 *man* [[https://www.kylheku.com/cgit/pw/tree/pw.1][here]]
+* =pandoc=
+:PROPERTIES:
+:ID:       1c9e4e76-b3ef-4ad9-9ddf-6014bb401ba5
+:END:
+*Use:* Convert one document type into other.
+
+*Usage:*
+#+begin_src shell
+pandoc [input_file] -o [output_file]
+#+end_src

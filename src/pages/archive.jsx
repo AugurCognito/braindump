@@ -17,6 +17,7 @@ const Archive = ({ posts }) => {
           </li>
         ))}
       </ul>
+      <script async defer data-website-id="235b86bf-b8d3-4bc3-af0b-3b8a950c0a56" src="https://umami-production-dd92.up.railway.app/umami.js"></script>
     </main>
   );
 };

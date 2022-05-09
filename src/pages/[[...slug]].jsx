@@ -31,6 +31,7 @@ const Note = ({ title, hast, backlinks }) => {
       <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/plugins/autoloader/prism-autoloader.js" integrity="sha512-xDNPOLdUk1MQjfkY6Qw0HrMmu2liCO8u0jcA1Av6+KNJM1QdSP3drDCPGCVT/83UACZTLPwYyIDFH1hWNUd2ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
       <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "6255acde30064826a35892ce7fca4e86"}'></script>
+      <script async defer data-website-id="235b86bf-b8d3-4bc3-af0b-3b8a950c0a56" src="https://umami-production-dd92.up.railway.app/umami.js"></script>
     </main>
   );
 };

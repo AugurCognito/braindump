@@ -1,0 +1,21 @@
+:PROPERTIES:
+:ID:       27fa7775-002e-4681-a4a9-25393b7a6383
+:END:
+#+title: Golang
+
+* Packages in go
+:PROPERTIES:
+:ID:       2eaf7c20-4521-49c1-a6ec-61d6a5a0d023
+:END:
+Package are a way to group go files together.
+
+** =import= in go
+:PROPERTIES:
+:ID:       11d8aa3c-1487-4257-a288-233209d1b4e6
+:END:
+=import= is used to import packages.
+
+* Functions in go
+:PROPERTIES:
+:ID:       e3e5f9de-d74a-48c8-bba2-379401fc2fc7
+:END:

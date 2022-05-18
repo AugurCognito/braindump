@@ -70,3 +70,4 @@ pandoc [input_file] -o [output_file]
 + Found about [[id:f7034ee3-1894-438c-af4f-258c46d51907][reveal.js]].
 ** 2022-05-16 Mon
 + Found about [[https://github.com/chubin/awesome-console-services][awesome-console-services]]. A list of console services for CLI.
++ Found about [[https://data.gov.in/][data.gov.in]], data-sets and API related to govt are available.

@@ -1,0 +1,16 @@
+:PROPERTIES:
+:ID:       df307d93-3ac5-4f39-acff-c582808b0235
+:END:
+#+title: Pandas
+
+* =DataFrame.dropna()=
+:PROPERTIES:
+:ID:       fbeb9c93-0d4f-4f5e-8123-ef6601005de5
+:END:
+[[https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.dropna.html][Documentation]]
+
+#+begin_src python
+DataFrame.dropna(axis=0, how='any', thresh=None, subset=None, inplace=False)
+#+end_src
++ =axis= : determines which axis to drop ='index'= (rows) or ='columns'=
++ =how= : ='any'= or ='all'=

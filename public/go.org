@@ -15,7 +15,19 @@ Package are a way to group go files together.
 :END:
 =import= is used to import packages.
 
-* Functions in go
+* Functions in go :function:go:
 :PROPERTIES:
 :ID:       e3e5f9de-d74a-48c8-bba2-379401fc2fc7
 :END:
+*Syntax:*
+#+begin_src go
+func fn_name(parameters) return_type{
+	// code
+}
+#+end_src
+
+* Tests in Go
+:PROPERTIES:
+:ID:       1556a835-d895-4f39-a9f3-a4286bfe5898
+:END:
+We use =testing= module

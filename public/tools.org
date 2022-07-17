@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       9ccb22ec-e364-41f0-8d24-73be0f78f9c5
 :END:
-#+title: Tools and TILs
+#+title: Tools
 * Tools
 :PROPERTIES:
 :ID:       ba0f095f-f710-46c6-b77b-2d0f02da53fc
@@ -17,6 +17,41 @@
 sudo nethogs [option] [device]
 #+end_src
 both =option= and =device= are optional
+** =pandoc=
+:PROPERTIES:
+:ID:       1c9e4e76-b3ef-4ad9-9ddf-6014bb401ba5
+:END:
+*Use:* Convert one document type into other.
+
+*Usage:*
+#+begin_src shell
+pandoc [input_file] -o [output_file]
+#+end_src
+** =pw=
+:PROPERTIES:
+:ID:       bf65a0cb-3677-4e30-8643-072aa81439de
+:END:
+*Use:* Monitors recent lines of output from a stream
+
+*Usage*
+#+begin_src shell
+program | pw [-i interval] [-n number of lines]
+#+end_src
+*man* [[https://www.kylheku.com/cgit/pw/tree/pw.1][here]]
+** =pyftpdlib=
+A python library that allows us to create ftp servers easily.
+
+I use it to share files from one device to another(better than most file transferring softwares as there is no need for having same software both sides).
+
+#+begin_src shell
+python3 -m pyfypdlib {flags}
+#+end_src
+
+** reveal.js :presentation:
+:PROPERTIES:
+:ID:       f7034ee3-1894-438c-af4f-258c46d51907
+:END:
+[[https://revealjs.com/][reveal.js]] is framework to create web-focused presentations.
 ** =tcpdump=
 :PROPERTIES:
 :ID:       0aedaeef-5edf-4e19-a3ae-3220c6713f15
@@ -35,39 +70,30 @@ More detail at
 #+begin_src shell
 man tcpdump
 #+end_src
-** =pw=
-:PROPERTIES:
-:ID:       bf65a0cb-3677-4e30-8643-072aa81439de
-:END:
-*Use:* Monitors recent lines of output from a stream
 
-*Usage*
+** =inxi=
+Provides in depth system information.
+
+For example for graphics related system information.
 #+begin_src shell
-program | pw [-i interval] [-n number of lines]
+inxi -G
 #+end_src
-*man* [[https://www.kylheku.com/cgit/pw/tree/pw.1][here]]
-** =pandoc=
-:PROPERTIES:
-:ID:       1c9e4e76-b3ef-4ad9-9ddf-6014bb401ba5
-:END:
-*Use:* Convert one document type into other.
 
-*Usage:*
+** =awk=
+[[id:0f55e446-a455-4dae-b42b-d7dbaf0cf656][GNU awk]] is great for anything text related.
+
+Format is
 #+begin_src shell
-pandoc [input_file] -o [output_file]
+awk [flags] [code] [file1] [file2] [file3]
 #+end_src
-** reveal.js :presentation:
-:PROPERTIES:
-:ID:       f7034ee3-1894-438c-af4f-258c46d51907
-:END:
-[[https://revealjs.com/][reveal.js]] is framework to create web-focused presentations.
+we can also pass input through pipe
 
-* TIL
+command is written in =''=.
+** =grep=
+#+begin_src shell
+grep [flags] search_term file_path
+#+end_src
+** =jq= command line JSON parser
 :PROPERTIES:
-:ID:       ec9beb8a-dbc1-4c7c-9e7d-04ee0ea0a111
+:ID:       23c3971e-bd2e-437d-b11f-af21f52fd29e
 :END:
-** 2022-05-14 Sat
-+ Found about [[id:f7034ee3-1894-438c-af4f-258c46d51907][reveal.js]].
-** 2022-05-16 Mon
-+ Found about [[https://github.com/chubin/awesome-console-services][awesome-console-services]]. A list of console services for CLI.
-+ Found about [[https://data.gov.in/][data.gov.in]], data-sets and API related to govt are available.

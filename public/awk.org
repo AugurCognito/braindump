@@ -1,0 +1,4 @@
+:PROPERTIES:
+:ID:       0f55e446-a455-4dae-b42b-d7dbaf0cf656
+:END:
+#+title: GNU awk

@@ -1,0 +1,52 @@
+:PROPERTIES:
+:ID:       ec9beb8a-dbc1-4c7c-9e7d-04ee0ea0a111
+:END:
+#+title: TILs
+* [2022-05-06 Fri]
++ [[https://eugenkiss.github.io/7guis/tasks/][7GUIs]] are benchmark for testing or learning GUIs.
+* [2022-05-07 Sat]
++ [[https://www.pikapods.com/][Pikapods]] is one click self hosting platform.
+* [2022-05-12 Thu] :Job:
++ [[https://himalayas.app][Remote job board]]
+* [2022-05-14 Sat]
++ Found [[https://sites.aspect.app/][Aspect.app]], a webapp for building react components.
++ Found about [[id:f7034ee3-1894-438c-af4f-258c46d51907][reveal.js]].
+* [2022-05-16 Mon]
++ Found about [[https://github.com/chubin/awesome-console-services][awesome-console-services]]. A list of console services for CLI.
++ Found about [[https://data.gov.in/][data.gov.in]], data-sets and API related to govt are available.
+* [2022-05-18 Wed] :QoL:
++ [[https://comby.dev/][Comby]] and [[https://semgrep.dev/][Semgrep]] are structural code search and replace tools.
+* [2022-05-19 Thu]
++ Found[[https://wisser.github.io/Jailer][ Jailer]], Java application to database browsing, subsetting and schema.
+* [2022-05-24 Tue] :QoL:Bash:
++ Found about [[https://github.com/onceupon/Bash-Oneliner][bash one liners]]
+* [2022-05-27 Fri] :Job:
++ [[https://www.trueup.io][TrueUP]] is just another job board.
+* [2022-05-28 Sat]
++ [[https://www.tetraframework.com/][Tetra]], a component framework for [[id:b43279e0-0106-4a81-9870-79ff9f59b9f2][Django]] using Alpine.
+* [2022-05-29 Sun]
++ [[https://neon.tech/][Neon]] provides serverless Postgres.
+* [2022-06-01 Wed]
++ [[https://github.com/multiprocessio/datastation][Datastation]] is a tool to easily visualise and apply queries over data.
+* [2022-06-03 Fri]
++ [[https://www.opensourcealternative.to/][This website]]  shows alternative to popular open source softwares.
+* [2022-06-05 Sun]
++ [[https://rr-project.org/][RR]] is [[id:9c52b828-7894-4b14-adfb-4f1e18db398a][C++]] debugger, better than GDB apparently.
+* [2022-06-07 Tue]
++ [[httpsL//untools.co][Untools]] is a website with illustrations and explanations to better think and solve problems. Helps in [[id:816b1834-309f-46cd-a6b0-f58ae0f38a81][How to think]].
+* [2022-06-08 Wed] :maps:
++ Found about "ok maps". Writing "ok maps" in google maps brings an interactive prompt to download map for office use.
+* [2022-06-19 Sun]
++ Found [[https://www.dynamicworld.app/][dynamic world]], a webapp showing realtime land cover and changes in it.
+* [2022-06-22 Wed]
++ Found [[https://til.simonwillison.net/sqlite/one-line-csv-operations][one liner for running sqlite queries against csv]].
+* [2022-07-04 Mon]
++ Found about [[https://lab.quantumflytrap.com/lab][quantumflytrap]], interactive simulations related to quantum physics.
+* [2022-07-08 Fri] :go:
++ [[https://github.com/pocketbase/pocketbase][Pocketbase]], realtime backend written. Should check if it works for small projects.
+* [2022-07-13 Wed] :fun:
++ Found [[https://pointerpointer.com/][webapp where people point finger towards mouse.]]
+* [2022-07-15 Fri] :C:
++ Found [[https://jadlevesque.github.io/PPMP-Iceberg/][The Preprocessor Iceberg Meme]]. Has links to C/C++ preprocessor quirks and like.
+* [2022-07-25 Mon]
++ [[https://www.reactivated.io/][Reactivated]] combines [[id:6a9f0611-91bf-4c24-9d9b-2f743624275d][ReactJS]] with [[id:b43279e0-0106-4a81-9870-79ff9f59b9f2][Django]].

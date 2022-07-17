@@ -6,13 +6,23 @@
 #+hugo_base_dir: ~/hugo
 #+setupfile:
 
-* System programming
+* Languages
 :PROPERTIES:
-:ID:       62edaf96-8810-43a4-98ae-4a008abbf759
+:ID:       713f223d-f51e-4255-865e-786b7f178cc6
 :END:
-** Languages
-- [[id:9c52b828-7894-4b14-adfb-4f1e18db398a][C++]]
-- [[id:c8656b43-6433-403b-a671-1697c7839673][Rust]]
+** [[id:0f55e446-a455-4dae-b42b-d7dbaf0cf656][GNU awk]]
+** [[id:9c52b828-7894-4b14-adfb-4f1e18db398a][C++]]
+** [[id:c8656b43-6433-403b-a671-1697c7839673][Rust]]
+** [[id:6d77843f-7f7c-4c42-a603-57669b67597f][JavaScript]]
+- [[id:6a9f0611-91bf-4c24-9d9b-2f743624275d][ReactJS]]
+- [[id:59a68247-ffd7-47d4-b198-557dcab614cf][JavaScript XML]]
+** Python
+- [[id:b43279e0-0106-4a81-9870-79ff9f59b9f2][Django]]
+- [[id:df307d93-3ac5-4f39-acff-c582808b0235][Pandas]]
+** [[id:2af7f9fe-c662-4c4d-b86a-f55b61f4577d][SQL]]
+** [[id:c633df83-80f7-4b6e-908e-53a084a38819][LaTeX]]
+** [[id:27fa7775-002e-4681-a4a9-25393b7a6383][Golang]]
+
 * Network programming
 ** Network Programming In C
 :PROPERTIES:
@@ -24,15 +34,5 @@
   - [[id:c76ebd62-fc90-4a8d-bfce-b670467488ab][4 from IPv4 to IPv6]]
   - [[id:cb5b176b-e491-457a-8c09-1b9a36f883fe][5 System Calls or Bust]]
   - [[id:f4c00ee8-b679-4813-8432-ddc0ddc3aca1][6 Client-Server Background]]
-* Web development
-** Front-End
-:PROPERTIES:
-:ID:       181bd00e-078d-4fc4-9f8d-6305539e5949
-:END:
-*** [[id:6d77843f-7f7c-4c42-a603-57669b67597f][JavaScript]]
-*** [[id:6a9f0611-91bf-4c24-9d9b-2f743624275d][ReactJS]]
-** Back-End
-:PROPERTIES:
-:ID:       149a1ae5-21c6-4e76-8fa9-9af701573fc4
-:END:
-*** [[id:b43279e0-0106-4a81-9870-79ff9f59b9f2][Django]]
+
+* [[id:126c57f6-9bd3-4370-9af6-9e7a9ed47c85][Microcontroller]]

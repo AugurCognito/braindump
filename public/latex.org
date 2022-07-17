@@ -1,0 +1,20 @@
+:PROPERTIES:
+:ID:       c633df83-80f7-4b6e-908e-53a084a38819
+:END:
+#+title: LaTeX
+* "Hello World" in LaTex
+#+begin_src latex
+\documentclass{article}
+\begin{document}
+Hello World
+\end{document}
+#+end_src
+
+* TeX to PDF
+:PROPERTIES:
+:ID:       c570dfff-bebd-4ab2-b1a5-0824971e55a7
+:END:
+With =pdftex=
+#+begin_src shell
+pdftex mypdffile.tex
+#+end_src

@@ -9,14 +9,16 @@ const Archive = ({ posts }) => {
       <Head>
         <title>{'Archive'}</title>
       </Head>
-      <h1>{'Archive'}</h1>
-      <ul>
-        {posts.map((p) => (
-          <li key={p.path}>
-            <Link href={p.path}>{p.title}</Link>
-          </li>
-        ))}
-      </ul>
+      <article className="prose lg:prose-xl">
+        <h1>{'Archive'}</h1>
+        <ul>
+          {posts.map((p) => (
+            <li key={p.path}>
+              <Link href={p.path}>{p.title}</Link>
+            </li>
+          ))}
+        </ul>
+    </article>
       <script async defer data-website-id="235b86bf-b8d3-4bc3-af0b-3b8a950c0a56" src="https://umami-production-dd92.up.railway.app/umami.js"></script>
     </main>
   );

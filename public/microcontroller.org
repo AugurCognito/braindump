@@ -1,0 +1,28 @@
+:PROPERTIES:
+:ID:       126c57f6-9bd3-4370-9af6-9e7a9ed47c85
+:END:
+#+title: Microcontroller
+
+* 8051 Microcontroller
+:PROPERTIES:
+:ID:       095b847d-9429-4709-a3de-efebe26ce122
+:END:
+** 8051 specifications
+| Feature | ROM | RAM  | Timers | I/O Pins | Serial Ports | Interrupt |
+|---------+-----+------+--------+----------+--------------+-----------|
+|    8051 | 4KB | 128b |      2 |       32 |            1 |         6 |
+
+** 8051 Instruction Set
+:PROPERTIES:
+:ID:       d72d665e-caa8-44d0-add9-752a315e53a7
+:END:
+
+It is case insensitive
+- =MOV arg1, arg2=
+
+  Copies the value of =arg2= to =arg1=. To signify that a value is being used =#= is used.
+- =ADD arg1, arg2=
+
+  Adds =arg2= to =arg1= and saves value in =arg1=.
+ =arg1= should be accumulator.
+-

@@ -249,3 +249,22 @@ onSomeEvent = (event) => {
     //code
 }
 #+end_src
+
+* Hooks in React
+:PROPERTIES:
+:ID:       7319f133-7b7e-4fbc-be7a-bce25e967662
+:END:
+
+* =create-react-app=
+:PROPERTIES:
+:ID:       ae2d61c6-9c72-444b-886b-1decf8710c91
+:END:
+Its a starting configuration of =.js= files. Further configuration happens in the background.
+
+To create a [[id:6a9f0611-91bf-4c24-9d9b-2f743624275d][ReactJS]] project using this
+#+begin_src shell
+npx create-react-app app-name
+#+end_src
+
+
+#  LocalWords:  Unmounting

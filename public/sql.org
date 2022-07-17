@@ -1,0 +1,57 @@
+:PROPERTIES:
+:ID:       2af7f9fe-c662-4c4d-b86a-f55b61f4577d
+:END:
+#+title: SQL
+
+
+* SQL Syntax
+:PROPERTIES:
+:ID:       0a21d384-d2b5-4a45-824f-5980a1514c89
+:END:
+SQL uses identifiers(such as table name), keywords(such as =SELECT=), a literal(a constant such as a string or number) and special character symbols(semicolon =;= for one).
+* Queries in SQL
+:PROPERTIES:
+:ID:       5c67ebd2-2899-4b13-ba56-e587496c39c7
+:END:
+Syntax is:
+#+begin_src sql
+    SELECT col1, col2 FROM table
+    WHERE
+      queries
+      ORDER BY coln ASC/DSC
+      LIMIT limits OFFSET offset;
+#+end_src
+
+- =DISTINCT=
+  removes duplicates from the columns.
+  #+begin_src sql
+    SELECT DISTINCT colname ---remaining query
+  #+end_src
+- Multiple column Order
+  is possible simply by using =,= after each =coln asc/dsc=
+** =JOIN=
+:PROPERTIES:
+:ID:       d45bf9be-921e-441e-a53d-a43d5d2ef4c7
+:END:
+* PostgreSQL
+:PROPERTIES:
+:ID:       f70271fd-3e62-4e7d-afdb-237237550a61
+:END
+** =createdb= and =dropdb=
+:PROPERTIES:
+:ID:       22d931fe-a947-4f18-85c3-31e5d1290759
+:END:
+- =sudo -u <username> createdb <dbname>=
+Creates a database with =dbname= name.
+
+- =sudo -u <username> dropdb <dbname>=
+Deletes database with =dbname= name.
+
+** =sudo -u <username> psql=
+:PROPERTIES:
+:ID:       e6249340-499d-403b-a9b7-8836165d8f0c
+:END:
+* SQLite
+:PROPERTIES:
+:ID:       7e9f8189-b191-4614-a9ac-c7f569e456ff
+:END:

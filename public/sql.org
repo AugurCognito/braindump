@@ -15,11 +15,13 @@ SQL uses identifiers(such as table name), keywords(such as =SELECT=), a literal(
 :END:
 Syntax is:
 #+begin_src sql
-    SELECT col1, col2 FROM table
-    WHERE
-      queries
-      ORDER BY coln ASC/DSC
-      LIMIT limits OFFSET offset;
+    SELECT col1, col2 FROM tablename, othertablename,...
+    JOIN (table3) ON ---
+        WHERE queries
+        GROUP BY coln
+        HAVING condition
+        ORDER BY coln ASC/DSC
+        LIMIT limits OFFSET offset;
 #+end_src
 
 - =DISTINCT=
@@ -29,10 +31,48 @@ Syntax is:
   #+end_src
 - Multiple column Order
   is possible simply by using =,= after each =coln asc/dsc=
-** =JOIN=
+- =AS=
+  expression can be written and new column can be created
+  #+begin_src sql
+    SELECT col1,(col2*some operation) AS new_name --"new name" can also be used
+  #+end_src
+- =JOIN=
+    We can join multiple tables in a database explicitly stating primary keys.
+    #+begin_src sql
+        SELECT col1, col2 FROM tablename
+        INNER JOIN anothertablename
+            ON tablename.pk = anothertablename.its_pk
+    #+end_src
+    We can nest joins to include multiple databases.
+    #+begin_src sql
+        INNER JOIN (anothertablename JOIN table3 ON (anothertablename.pk = table3.pk)) ON (tablename.pk = anothertablename.its_pk)
+    #+end_src
+
+- Aggregate Functions are used to get a single result from a range of data. PostgreSQL Aggregate Functions [[https://www.postgresql.org/docs//functions-aggregate.html][here]].
+  #+begin_src sql
+    SLECT func(column/expr) as name
+         from tablename
+    GROUP BY some_column
+    HAVING group_condition;
+  #+end_src
+  =Group BY= can be used to get result of group of data. =HAVING= is used with =GROUP BY=, it is identical with =WHERE=.
+
+* Data manipulation in SQL
 :PROPERTIES:
-:ID:       d45bf9be-921e-441e-a53d-a43d5d2ef4c7
+:ID:       90dcef52-060a-445e-b42e-2e41e41fd721
 :END:
+** =INSERT= in SQL
+:PROPERTIES:
+:ID:       b53b8cf0-1e94-4a80-91d5-e45cfeb8ddc5
+:END:
+Basic syntax of =INSERT= is
+#+begin_src sql
+    INSERT INTO tablename
+    (col1, col2,...coln)
+    VALUES (value1, value2...valuen)
+           (valu1, valu2,...valun)
+#+end_src
+Column names are optional and need not to all be in order or full list of column available to a table.
 * PostgreSQL
 :PROPERTIES:
 :ID:       f70271fd-3e62-4e7d-afdb-237237550a61

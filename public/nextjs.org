@@ -1,0 +1,51 @@
+:PROPERTIES:
+:ID:       275e50eb-ec8a-47c1-a5fd-e3ad406e6304
+:END:
+#+title: NextJS
+
+* Components in NextJS
+:PROPERTIES:
+:ID:       a9ef4f5b-ff0a-4bd1-abde-5040292ac7be
+:END:
+** =next/link=
+for javascript based navigation
+#+begin_src html
+<Link href="link">something</Link>
+#+end_src
+
+** =next/image=
+=<img>= tag but better and handles optimization.
+#+begin_src html
+  <Image
+    src="img location" // Route of the image file
+    height={value} // Desired size with correct aspect ratio
+    width={value} // Desired size with correct aspect ratio
+    alt="alt name"
+  />
+  #+end_src
+** =next/head=
+Whatever we want to include in =head= tag.
+** =next/script=
+#+begin_src jsx
+    <Script
+    src="route to js file"
+    strategy="how to load"
+    onLoad={() =>
+        code to run after loading javascript file
+    }
+    />
+#+end_src
+
+* Pre-rendering in NextJS
+:PROPERTIES:
+:ID:       1f162d09-92c3-4676-8f03-42a4f8b1db86
+:END:
+** =getStaticProps=
+NextJS will use props returned by this function at build time to render the page.
+#+begin_src javascript
+export async function getStaticProps(context) {
+  return {
+    props: {}, // will be passed to the page component as props
+  }
+}
+#+end_src

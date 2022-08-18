@@ -16,6 +16,7 @@
 ** [[id:6d77843f-7f7c-4c42-a603-57669b67597f][JavaScript]]
 - [[id:6a9f0611-91bf-4c24-9d9b-2f743624275d][ReactJS]]
 - [[id:59a68247-ffd7-47d4-b198-557dcab614cf][JavaScript XML]]
+- [[id:275e50eb-ec8a-47c1-a5fd-e3ad406e6304][NextJS]]
 ** Python
 - [[id:b43279e0-0106-4a81-9870-79ff9f59b9f2][Django]]
 - [[id:df307d93-3ac5-4f39-acff-c582808b0235][Pandas]]

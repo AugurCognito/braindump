@@ -77,6 +77,8 @@ Column names are optional and need not to all be in order or full list of column
 :PROPERTIES:
 :ID:       f70271fd-3e62-4e7d-afdb-237237550a61
 :END
+Resources:
+[[https://www.crunchydata.com/developers/playground/][+ Postgresql playground]]
 ** =createdb= and =dropdb=
 :PROPERTIES:
 :ID:       22d931fe-a947-4f18-85c3-31e5d1290759

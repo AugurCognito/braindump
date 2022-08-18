@@ -123,7 +123,7 @@ fn main(){
 - data type MUST be annotated
 - can be set during compile time or before only
 
-*** Data types
+*** Data types in Rust
 :PROPERTIES:
 :ID:       ee054314-a07a-4426-9f60-0a3103bf49b7
 :END:
@@ -251,7 +251,144 @@ fn multi(a: f64,b: f64)->f64{
 
 #+RESULTS:
 : 3853.395
-*** Control Flow
+*** Control Flow in Rust
 :PROPERTIES:
 :ID:       d945437d-ef23-4dfa-848f-b464f5d4c04d
 :END:
+**** =if= and =else=
+=if= is an expression in rust, making it much more powerful.
+#+begin_src rust
+if condition {
+    // something
+} else if {
+    // something else
+} else {
+    // something else but different
+}
+#+end_src
+because it is  an expression it can be used anywhere any normal expression can be used. But when used in left side of =let=, value from all the branches should be of same data type
+**** =loop=
+Loops code forever. =break= exits the loop. Value written just after break will be returned. =continue= continues skips execution of loop from that point and starts over.
+#+begin_src rust
+loop{
+//code
+    if condition {
+        break value_to_return;
+    }
+}
+#+end_src
+**** =while=
+#+begin_src rust
+while condition {
+    //code
+}
+#+end_src
+**** =for=
+Loops over a range
+#+begin_src rust
+fn main(){
+    let numbers= {1,7,5,7,10};
+    for num in numbers {
+        println!("{}",number);
+    }
+}
+#+end_src
+
+**** =match=
+Matches with all the possible values of a variable.
+#+begin_src rust
+match somevariable{
+    possible_value1 => { code for it },
+    possible_value2 => code, //{ are not required,
+    _ => code // code for rest of the cases
+}
+#+end_src
++ =if let= is great way to deal with only one case. =else= can be used as =_= in this case.
+  #+begin_src rust
+if let possible_valuen = somevariable {
+    // code in this case
+}
+  #+end_src
+** Structures in Rust
+:PROPERTIES:
+:ID:       4299c15d-9112-415b-bbce-a4be12e93803
+:END:
+To define
+#+begin_src rust
+struct stuct_name {
+    key1 : data_type,
+    key2 : data_type,
+    //....
+    }
+#+end_src
+To use
+#+begin_src rust
+let var = stuct_name {
+    key2 : data_value,
+    key10 : data_value,
+    keynth, // if variable name in which data is stored is same as key then it can be written directly
+    //...
+}
+struct_name.key1 //gives access to the key
+#+end_src
+Trailing commas are allowed.
+#+begin_src rust
+let var = stuct_name {
+    key2 : data_value,
+    ..another_struct //can also be used
+    // except key2 all the key are assigned values from another_struct
+    //...
+}
+#+end_src
+Tuple =struct= can be used for storing data without defining key names.
+#+begin_src rust
+stuct stuct_name(type1,type2,type3);
+let var = struct_name(val1, val2, val3);
+#+end_src
+** Methods in Rust
+:PROPERTIES:
+:ID:       4c71fa23-82f8-461a-ae48-bbc6e19f39ad
+:END:
+Methods are defined on =struct=, =enum= and =trait=.
+#+begin_src rust
+impl struct_name {
+    fn fn_name(&self,...){
+        //code
+    }
+    fn fn_name2(&self,...){
+        //code
+    }
+}
+#+end_src
+Here self is associated with =struct= (or enum or trait) itself. Methods can take ownership of self, borrow mutably or immutably.
+- Multiple =impl= blocks per structure is allowed.
+- Any function written inside is  an *associated function*.
+- Having =self= as parameter is not essential.
+
+** Enums in Rust
+:PROPERTIES:
+:ID:       513418b2-9738-4a44-9eaa-cd4dfa3603f8
+:END:
+Enum let us define one from a set of value.
+#+begin_src rust
+enum EnumName {
+    FirstOption,
+    SecondOption,
+    //...
+}
+#+end_src
+Here it is needed that option should be an identifier. Now that identifier can have objects associated with it.
+#+begin_src rust
+enum EnumName{
+    FirstOption(val1, val2),
+    SecondOption(val4,val5)
+}
+#+end_src
+*** =Option<T>-
+It is an Enum. It can be used when we do not know when some value will be available or not.
+#+begin_src rust
+enum Option<T> {
+    None,
+    Some(T),
+} // T is type
+#+end_src

@@ -1,0 +1,47 @@
+:PROPERTIES:
+:ID:       68e94a25-d43e-43cc-b619-9def58f7fad9
+:END:
+
+#+title: Lisp
+#+description: Here I talk about LISP and its tooling
+
+* Common Lisp
+:PROPERTIES:
+:ID:       2e37a93b-095d-4392-9ea9-ed98b96f54f1
+:END:
+** Everything is a LIST(in lisp)!!!
+:PROPERTIES:
+:ID:       aa26fd20-0385-4424-92cf-dfe5390d5c55
+:END:
+*** =quote= or ='(list)=
+=quote= returns a list with evaluating it, important if we want to give a list as an argument to a function.
+#+begin_src lisp :results value verbatim
+(quote (* 2 6))
+#+end_src
+
+#+RESULTS:
+: (* 2 6)
+='= is just a way to write =(quote (list))=
+#+begin_src lisp :results value verbatim
+'(* 2 6)
+#+end_src
+
+#+RESULTS:
+: (* 2 6)
+
+** Functions in LISP
+:PROPERTIES:
+:ID:       37d415e4-6b01-4d5c-b334-e98a6660b429
+:END:
+*** Syntax
+#+begin_src lisp
+(defun function-name (argument1 argument2 ...) (what-it-does))
+#+end_src
+* LISP Tooling
+:PROPERTIES:
+:ID:       5985dfb7-58b6-4e80-95e9-cf2b4a15f989
+:END:
+** SLY
+Package for Emacs, amazing for working with LISP.
+*** =sly-mrepl=
+Handles REPL for LISP

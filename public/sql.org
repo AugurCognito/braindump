@@ -50,7 +50,7 @@ Syntax is:
 
 - Aggregate Functions are used to get a single result from a range of data. PostgreSQL Aggregate Functions [[https://www.postgresql.org/docs//functions-aggregate.html][here]].
   #+begin_src sql
-    SLECT func(column/expr) as name
+    SELECT func(column/expr) as name
          from tablename
     GROUP BY some_column
     HAVING group_condition;
@@ -93,6 +93,11 @@ Deletes database with =dbname= name.
 :PROPERTIES:
 :ID:       e6249340-499d-403b-a9b7-8836165d8f0c
 :END:
+Default is generally 'postgres'
+*** =\dn=
+To show all schemas
+*** =\dt <schema_name>.*=
+To show all relations of schema
 * SQLite
 :PROPERTIES:
 :ID:       7e9f8189-b191-4614-a9ac-c7f569e456ff

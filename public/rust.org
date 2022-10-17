@@ -392,3 +392,48 @@ enum Option<T> {
     Some(T),
 } // T is type
 #+end_src
+
+** Generics in Rust
+:PROPERTIES:
+:ID:       d9d9d634-d3bc-412f-8845-fa44eaed9dad
+:END:
+*** Generic Data Types in Rust
+:PROPERTIES:
+:ID:       5a53f4fe-3cf8-4bcb-963b-fb0ec271dec7
+:END:
+**** Function Definitions
+#+begin_src rust
+fn fn_name<T>(v: T)->&T{
+    // code
+}
+#+end_src
+**** Struct and Enum definations
+#+begin_src rust
+struct strt_name<T>{
+    var1: T,
+    var2: T,
+    //...
+}
+#+end_src
+In Enums
+#+begin_src rust
+enum EnumName<T1,T2>{
+    A(T1),
+    B(T2),
+    //...
+}
+#+end_src
+**** Method Definitions
+#+begin_src rust
+impl<T> struct_name<T>{
+    fn method_name(&slef)->T{
+        //code
+    }
+}
+#+end_src
+This T should be constrained.
+
+*** Traits in Rust
+:PROPERTIES:
+:ID:       43644847-44db-41d0-967e-197fb03551f1
+:END:

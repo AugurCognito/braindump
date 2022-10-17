@@ -78,7 +78,11 @@ For example for graphics related system information.
 #+begin_src shell
 inxi -G
 #+end_src
+** =tlp=
+Manages power related settings in the laptop, more or less essential.
 
++ =sudo tlp bat/ac/auto=: Manual/auto control over tlp, had issues with overheating when charging in auto mode.
++ =tlp-stat=: shows info related to system and tlp, =sudo= can be needed to run some commands.
 ** =awk=
 [[id:0f55e446-a455-4dae-b42b-d7dbaf0cf656][GNU awk]] is great for anything text related.
 

@@ -1,0 +1,45 @@
+:PROPERTIES:
+:ID:       2ac4dfe1-73d5-413f-85ee-df83e62f0072
+:END:
+#+title: POSIX flags
+
+* Terminal in Linux
+By default, the terminal starts in cooked mode or _canonical mode_. In this mode the terminal waits for the user to press the Enter key before sending the input to the program.
+
+Another mode is _raw mode_. In this mode the terminal sends the input to the program as soon as the user presses a key. This mode is useful for programs that need to read the input character by character.
+** =termios.h=
+:PROPERTIES:
+:ID:       a34d56be-d11a-4e2e-972d-065892c0a3ab
+:END:
+=termios.h= is a library that provides access to POSIX terminal internal. It handles different modes such as input and output.
+
+It uses =termios= structure.
+#+begin_src c
+struct termios {
+	tcflag_t c_iflag;
+	tcflag_t c_oflag;
+	tcflag_t c_cflag;
+	tcflag_t c_lflag;
+	cc_t c_cc[NCCS];
+	speed_t c_ispeed;
+	speed_t c_ospeed;
+};
+#+end_src
+1. =c_iflag=: input mode flags
+2. =c_oflag=: output mode flags
+3. =c_cflag=: control mode flags
+4. =c_lflag=: local mode flags
+5. =c_cc=: control characters
+6. =c_ispeed=: input baud rate
+7. =c_ospeed=: output baud rate
+
+*** Functions
+1. =tcgetattr(file_descriptor, &termios)=: gets the parameters associated with the terminal
+2. =tcsetattr(file_descriptor, optional_actions, &termios)=: sets the parameters associated with the terminal
+3. =tcdrain(file_descriptor)=: waits until all output written to the file descriptor has been transmitted
+4. =tcflush(file_descriptor, queue_selector)=: discards data written to the file descriptor but not transmitted or data received but not read
+5. =tcflow(file_descriptor, action)=: suspends or restarts transmission or reception of data
+6. =cfgetispeed(&termios)=: gets the input baud rate stored in the termios structure
+7. =cfgetospeed(&termios)=: gets the output baud rate stored in the termios structure
+8. =cfsetispeed(&termios, baud_rate)=: sets the input baud rate stored in the termios structure
+9. =cfsetospeed(&termios, baud_rate)=: sets the output baud rate stored in the termios structure

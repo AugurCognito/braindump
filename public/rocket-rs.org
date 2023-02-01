@@ -1,0 +1,19 @@
+:PROPERTIES:
+:ID:       44022133-602b-4731-a5ad-189c0964929a
+:END:
+#+options: num: 2
+#+title: Rocket: Rust Web-Framework
+#+author: Aniket Singh
+#+hugo_base_dir: ~/hugo
+#+setupfile:
+
+* Note
+Mostly macros will be used here.
+* Routes
+Two methods can be used to define routes using macros. Using the method(such as get, post, put, delete) and using the route macro. =[Route(METHOD, URL=PATH]= can be used for explicit route defining. otherwise =get= , =post= , =put= , =delete= , =head=, =patch= and =options= can be used to define routes. The macro will be used as follows:
+#+BEGIN_SRC rust
+#[get("/")]
+fn index() -> &'static str {
+    "Hello, world!"
+}
+#+END_SRC

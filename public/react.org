@@ -34,7 +34,7 @@ This object contain DOM specific methods, used at outside layer(for example to f
 #+begin_src js
 ReactDOM.render(renderWhatElem, renderWhere [, callback])
 #+end_src
-Controls the contents(children, not the node itself) of the container node. Everthing is replaced on first call and efficiently refreshed afterwards.\\
+Controls the contents(children, not the node itself) of the container node. Everything is replaced on first call and efficiently refreshed afterwards.\\
 *Returns:* a reference to the root =ReactComponent= instance but it may get deprecated.
 Example:
 #+begin_src js

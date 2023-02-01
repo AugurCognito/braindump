@@ -47,6 +47,6 @@
 * [2022-07-13 Wed] :fun:
 + Found [[https://pointerpointer.com/][webapp where people point finger towards mouse.]]
 * [2022-07-15 Fri] :C:
-+ Found [[https://jadlevesque.github.io/PPMP-Iceberg/][The Preprocessor Iceberg Meme]]. Has links to C/C++ preprocessor quirks and like.
++ Found [[https://jadlevesque.github.io/PPMP-Iceberg/][The Preprocessor Iceberg Meme]]. Has links to C/C++ pre-processor quirks and like.
 * [2022-07-25 Mon]
 + [[https://www.reactivated.io/][Reactivated]] combines [[id:6a9f0611-91bf-4c24-9d9b-2f743624275d][ReactJS]] with [[id:b43279e0-0106-4a81-9870-79ff9f59b9f2][Django]].

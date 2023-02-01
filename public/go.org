@@ -3,11 +3,38 @@
 :END:
 #+title: Golang
 
+
+* Go Basics and Syntax :go:
+:PROPERTIES:
+:ID:       e3e5f9de-d74a-48c8-bba2-379401fc2fc7
+:END:
+Go is statically typed, compiled language so types exist. Basic built in types are boolean, integers, floating point numbers, complex numbers and strings(not including collections and such).
+*Syntax:*
+#+begin_src go
+func fn_name(parameters) return_type{
+	// code
+}
+#+end_src
+we
+
 * Packages in go
 :PROPERTIES:
 :ID:       2eaf7c20-4521-49c1-a6ec-61d6a5a0d023
 :END:
 Package are a way to group go files together.
+** LSP
+Not exactly realted but if you are trying to use LSP with go, you need to install the =gopls= package. If you editor does set it up for you then great but if not then you can do it manually.
+
+#+BEGIN_SRC shell
+go get golang.org/x/tools/gopls@latest
+#+END_SRC
+and add the following to your =.bashrc= or =.zshrc= file
+#+BEGIN_SRC shell
+export GO111MODULE=on
+export GOPATH={your go path}
+export PATH=$PATH:$GOPATH/bin
+#+END_SRC
+Now you should be able to use LSP with go.
 
 ** =import= in go
 :PROPERTIES:
@@ -15,19 +42,9 @@ Package are a way to group go files together.
 :END:
 =import= is used to import packages.
 
-* Functions in go :function:go:
-:PROPERTIES:
-:ID:       e3e5f9de-d74a-48c8-bba2-379401fc2fc7
-:END:
-*Syntax:*
-#+begin_src go
-func fn_name(parameters) return_type{
-	// code
-}
-#+end_src
 
 * Tests in Go
 :PROPERTIES:
 :ID:       1556a835-d895-4f39-a9f3-a4286bfe5898
 :END:
-We use =testing= module
+We use =testing= module for the tests in go.

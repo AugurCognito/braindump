@@ -1,0 +1,27 @@
+:PROPERTIES:
+:ID:       e8399a66-b65d-491a-82ea-9887ff3339d7
+:END:
+#+title: Aniket Singh
+
+* Remap keys using =xkb=
+:PROPERTIES:
+:ID:       d4c8aa20-0a6a-4e1c-9627-56d428795931
+:END:
+well first of all good luck. As of writing I am on Ubuntu 20.4 and using KDE (with wayland). Apparently =xmodmap= does not work with wayland. I could not find the most correct way(which is think should work using =.config=).
+Special thanks to [[https://www.codejam.info/2022/04/xmodmaprc-wayland.html][this migration blog by Val]] and [[https://medium.com/@damko/a-simple-humble-but-comprehensive-guide-to-xkb-for-linux-6f1ad5e13450][this xkb guide by Damiano Venturin]]. Saved me a lot of time.
+
+So what I ended up doing was:
+1. Whatever was said in the blog by Val. Adding =.lst= to the =evdev= file. But still it did not work.
+2. Ended up adding keybinds in the =usr/share/x11/xkb/symbols/us= file. This is the file which contains the keybinds for the US keyboard. I added the following lines to the file.
+   #+begin_src
+   default partial alphanumeric_keys modifier_keys
+   xkb_symbols "basic" {
+    name[Group1]= "English (US)";
+    key <TLDE> {	[     Control_L	]	};
+    .
+    .
+    .
+    key <LCTL> { [ quoteleft, asciitilde ] };
+    key <RCTL> { [ Control_R ] };
+    };
+    #+end_src

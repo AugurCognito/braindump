@@ -83,6 +83,7 @@ fn main(){
 #+RESULTS:
 : The value of var is 5
 : The value of var now is 6
+Value to a immutable can be assigned only once, either in declaration, or *in assignment*.
 
 The variable we are referring to depends on the scope of the object. Scope define lifespan as well as where and how variable can be accessed. In a program same named variables can exist inside same program in different scopes.
 #+begin_src rust
@@ -393,6 +394,11 @@ enum Option<T> {
 } // T is type
 #+end_src
 
+** Error Handling in Rust
+:PROPERTIES:
+:ID:       570d6d26-88bd-487f-bde7-bb917d63ebff
+:END:
+
 ** Generics in Rust
 :PROPERTIES:
 :ID:       d9d9d634-d3bc-412f-8845-fa44eaed9dad
@@ -403,7 +409,7 @@ enum Option<T> {
 :END:
 **** Function Definitions
 #+begin_src rust
-fn fn_name<T>(v: T)->&T{
+fn_name<T>(v: T)->&T{
     // code
 }
 #+end_src
@@ -437,3 +443,99 @@ This T should be constrained.
 :PROPERTIES:
 :ID:       43644847-44db-41d0-967e-197fb03551f1
 :END:
+Traits are methods defined of types that may share functionality. Same trait name can be used to define similar functionality for different types.
+
+An example of trait with name =TraitName= is written below. It has one method =method_name= (can be multiple) which takes =self= as parameter and returns =T=.
+#+begin_src rust
+pub trait TraitName{
+    fn method_name(&self)->T{
+        //code
+    }
+}
+#+end_src
+Now we will =impl=-iment this trait for a type. This is done by writing
+#+begin_src rust
+impl TraitName for type_name{
+    //code
+}
+#+end_src
+Now we can use this trait for =type_name=.
+
+Basically you define multiple functions in a =trait= and then implementing these functions for different types. *All the functions in a trait must be implemented for a type*.
+
+**** Default Trait
+Default trait is used to define default values for a type. It code inside the trait if not defined later for a specific type.
+#+begin_src rust
+pub trait Default{
+    fn fndefault()->Self{
+        //code
+    }
+    fn fnanother()->Self;
+}
+#+end_src
+Here only =fndefault= has a default code. =fnanother= needs to be explicitly defined for a type.
+
+**** Traits as parameters
+We can give a =trait= as a parameter to a function. This is called =trait= bound. Only types that implement the =trait= can be used as arguments. This is done by writing
+#+begin_src rust
+fn fn_name(arg: &impl TraitName)->T{
+    //code
+}
+#+end_src
+And there is another way of writing this known as *trait bound*.
+#+begin_src rust
+fn fn_name<T: TraitName>(arg: &T)->T{
+    //code
+}
+#+end_src
+Multiple traits can be used as bounds too with =+= sign.
+#+begin_src rust
+fn fn_name<T: TraitName + TraitName2>(arg: &T)->T{
+    //code
+}
+#+end_src
+Finally we can also use *where* clause.
+#+begin_src rust
+fn name<T1,T2>(arg1: &T1, arg2: &T2)->T1
+where T1: TraitName, T2: TraitName2{
+    //code
+}
+#+end_src
+**** Returning Traits
+We can also return a trait from a function. This is done by writing
+#+begin_src rust
+fn fn_name()->impl TraitName{
+    //code
+}
+#+end_src
+Especially useful when we want to return something that implements a trait but we do not know(or want to know, for example *iterators* and *closures*) the type. *Only a single type can be returned* even if multiple types implement the trait. It is more to do with branching statements in rust(according to me).
+**** Using Trait Bounds to Conditionally Implement Methods
+We can use trait bounds to conditionally implement methods. This is done by writing
+#+begin_src rust
+impl<T: TraitName> struct_name<T>{
+    fn fn_name(&self)->T{
+        //code
+    }
+}
+#+end_src
+Here the method will be implemented only if the type implements the trait(or traits). For example, we can implement a method for =String= type only if it implements =Display= trait.
+#+begin_src rust
+impl<T: Display> String<T>{
+    fn fn_name(&self)->T{
+        //code
+    }
+}
+#+end_src
+*** Validating References with Lifetimes in Rust
+:PROPERTIES:
+:ID:       0189a0be-1560-41ee-912c-f17b55111bd1
+:END:
+
+Lifetimes are a type of generic. They are used to tell the compiler about the relationship between the references. This is done by writing
+#+begin_src rust
+fn fn_name<'a>(arg: &'a str)->&'a str{
+    //code
+}
+#+end_src
+* Rust libraries and frameworks
++ [[id:44022133-602b-4731-a5ad-189c0964929a][Rocket: Rust Web-Framework]]

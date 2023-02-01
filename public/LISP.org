@@ -13,7 +13,7 @@
 :PROPERTIES:
 :ID:       aa26fd20-0385-4424-92cf-dfe5390d5c55
 :END:
-*** =quote= or ='(list)=
+*** =quote= or ='something=
 =quote= returns a list with evaluating it, important if we want to give a list as an argument to a function.
 #+begin_src lisp :results value verbatim
 (quote (* 2 6))
@@ -29,6 +29,51 @@
 #+RESULTS:
 : (* 2 6)
 
+And not just with lists, it can be used to tell if to treat symbols as data.
+#+begin_src lisp :results value verbatim
+(equal 'this 'that)
+#+end_src
+
+#+RESULTS:
+: NIL
+
+An object with apostrophe evaluates to itself, this ='= is also called as quoting.
+** Flow Control in LISP
+:PROPERTIES:
+:ID:       62d53d5a-6c6c-4257-bc53-dda9f23fdca6
+:END:
+*** =if=
+#+begin_src lisp
+(if NIL/T if-true if-false)
+#+end_src
+*** =cond=
+#+begin_src lisp
+(cond (test-1 if-test-1)
+      (test-1 if-test-1)
+      ...
+      (test-n if-test-n))
+#+end_src
+*** =and= =or= macros
+#+begin_src lisp
+(and (item1)
+     (item2)
+     (item3))
+#+end_src
+=AND= macro returns =NIL= in case =nil= is encountered or last item of the list.
+
+Why use it?
++ Returns last value
++ If one value is =nil=, it will stop the evaluation of further lists/expressions.
+#+begin_src lisp
+(or (item1)
+    (item2)
+    (item3))
+#+end_src
+in case of =or=, it returns first non =nil= value if any is available.
+
+Why use it?
++ Returns first non-nil value
++ Only first non-nil expression is evaluated
 ** Functions in LISP
 :PROPERTIES:
 :ID:       37d415e4-6b01-4d5c-b334-e98a6660b429
@@ -37,6 +82,14 @@
 #+begin_src lisp
 (defun function-name (argument1 argument2 ...) (what-it-does))
 #+end_src
+** Variables in Lisp
+:PROPERTIES:
+:ID:       f99829e5-da3c-497d-b868-732740ac296f
+:END:
+*** =setf=
+Macro for defining any kind of data.
+*** =setq=
+For defining symbols
 * LISP Tooling
 :PROPERTIES:
 :ID:       5985dfb7-58b6-4e80-95e9-cf2b4a15f989

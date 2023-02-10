@@ -43,3 +43,19 @@ struct termios {
 7. =cfgetospeed(&termios)=: gets the output baud rate stored in the termios structure
 8. =cfsetispeed(&termios, baud_rate)=: sets the input baud rate stored in the termios structure
 9. =cfsetospeed(&termios, baud_rate)=: sets the output baud rate stored in the termios structure
+** =sys/ioctl.h=
+:PROPERTIES:
+:ID:       dbcfe3b5-1331-4755-b2dc-e7eb2ca21b5e
+:END:
+=ioctl= is a system call that manipulates the underlying device parameters of special files. It is used to control the terminal.
+
+** Special sequences
+:PROPERTIES:
+:ID:       6d2e5f93-9683-40db-a971-7a39ed3f740f
+:END:
+1. =\e[2J=: clears the screen
+2. =\e[%a;%b=: moves the cursor to the position specified by =a= and =b=, where =a= is the row and =b= is the column
+3. =\e[?25l=: hides the cursor
+4. =\e[?25h=: shows the cursor
+5. =\e[1m=: sets the text to bold
+6. =\e[0m=: sets the text to normal

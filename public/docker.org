@@ -1,0 +1,45 @@
+:PROPERTIES:
+:ID:       a1e14f97-926c-4bd6-8be5-756a7feb42f4
+:END:
+
+* Docker
+In =docker run busybox echo hello=, the =echo hello= is the command, and =busybox= is the image. =docker run= is the command to run a container.
+
+Images are read-only templates with instructions for creating a container. A container is a running instance of an image. One image can be used to create many containers. In our example, each time you run the command, a new container is created from the image, and then it is run.
+Container have multiple states, but the most important ones are:
+- Created
+- Running
+- Paused
+- Exited
+- Dead
+These determine if our container is running or not and if our resources are being used or not.
+** Image
+An image is a read-only template with instructions for creating a container. Image is made out of files and metadata. The metadata is what describes the image and the files are what are contained in the image. Metadata is stored in a file called =manifest.json=.
+Metadata contains information about the image such as:
+- The ID of the image
+- The date the image was created
+- The author of the image
+- The operating system of the image
+- The architecture of the image
+- The command to run when the image is run as a container
+- The ID of the parent image
+  Images are made up of layers.
+*** Layers
+Each layer represents a Dockerfile instruction. The layers are stacked and each one is a delta of the changes from the layer below it. This means that each layer only contains the changes from the previous layer. This is what allows Docker to use Union File Systems. Layer are made up of other images.
+*** Creating an image
++ There is special layer called =scratch=, which is an empty layer. This is the base layer of every image. Every other layer is built on top of this layer.
++ =docker commit= is used to create a new image from a container's changes.
++ =docker build= is used to create an image from a Dockerfile.
+** Flags and options
++ =docker run -it busybox sh= will run a container and open an interactive terminal in that container. =i= stands for interactive, and =t= stands for terminal. =sh= is the shell that will be used in the container.
++ To detach from the container, use =Ctrl+P+Q=. This won't work with =it= flag.
++ =docker run -d busybox= will run a container in the background. =d= stands for detached or daemon.
++ to attach to a container, use =docker attach <container_id>=.
++ to start a container, use =docker start <container_id>=.
++ =docker ps -a --size= will show all containers, including the ones that have been stopped. =--size= will show the size of the container.
+
++ =docker logs <container_id>= will show the logs of a container. =docker logs -f <container_id>= will show the logs of a container and follow them.
++ Container can be killed using =docker kill= or =docker stop=(gives grace period).
+
+** Resources
+1. [[https://container.training/][Container training:]] Contains workshops and tutorials for Docker and Kubernetes.

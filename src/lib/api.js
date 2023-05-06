@@ -110,3 +110,25 @@ export async function getAllPosts() {
   const posts = await allPosts();
   return await Promise.all(Object.values(posts));
 }
+
+async function loadPosts2() {
+  const files = await new Promise((resolve, reject) =>
+    processor.run(pagesDirectory, (err, files) => {
+      console.error(report(err || files, { quiet: true }));
+      if (err) reject(err);
+      else resolve(files);
+    })
+  );
+  return files;
+}
+
+export async function getAllBacklinks() {
+  const files = await loadPosts2();
+
+  const backlinks = {};
+  files.forEach((file) => {
+    backlinks[file.data.slug] = Array.from(file.data.backlinks);
+  });
+
+  return backlinks;
+}

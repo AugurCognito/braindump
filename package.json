@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@builder.io/partytown": "^0.7.1",
     "daisyui": "^2.19.1",
     "next": "^12.0.5",
     "orgast-util-visit-ids": "^0.5.0",
@@ -24,7 +25,9 @@
     "uniorg-rehype": "^0.5.0",
     "uniorg-slug": "^0.5.0",
     "vfile-find-down": "6.0.0",
-    "vfile-reporter": "7.0.4"
+    "vfile-reporter": "7.0.4",
+    "vis-data": "^7.1.4",
+    "vis-network": "^9.1.2"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.4",

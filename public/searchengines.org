@@ -1,0 +1,9 @@
+:PROPERTIES:
+:ID:       f0b1b435-07bc-4d1d-b1a8-58c99fb15553
+:END:
+#+title: Search Engines
+
+* [[https://search.brave.com/][Brave Search Engine]]
+Good search engine especially with
+* [[https://kagi.com/][Kagi Search Engine]]
+Paid and good, no advertisement

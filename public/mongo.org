@@ -1,0 +1,79 @@
+:PROPERTIES:
+:ID:       d3bb0b09-bbf8-4524-ad45-4c7544596723
+:END:
+
+I will mostly be using docker to run the mongodb instance.
+
+* Documents, Collections and Databases in mongodb
+:PROPERTIES:
+:ID:       15b65ed1-5691-44fc-a65f-4af4473ab9a2
+:END:
++ A document is a key-value pair(like a hash table) with a unique id. Keys are strings and values. Document can have documents as values. Documents can be nested.
++ Collection is a group of documents. A database is a group of collections.
++ Database is a group of collections.
++ Each document has a unique =_id=.
+** Data  types in MongoDB
+:PROPERTIES:
+:ID:       67c6ea20-25a3-4432-acde-6ecd50f486bf
+:END:
++ String
++ numbers
++ boolean
++ null
++ array
++ subdocument
++ date(which is javascript =Date()= object)
++ =ObjectId()= (which is a 12 byte unique id)
++ code(which are javascript function)
+* Creating and connecting to the mongo container
+:PROPERTIES:
+:ID:       5be5a0d6-e115-49ee-8d8b-7cc20db0c7bd
+:END:
++ To create a container with the mongodb image, I run the following command:
+    #+BEGIN_SRC sh
+    docker run -d -p 27017:27017 -v <host_dir>:/data/db/  --name test-mongo mongo:<version>
+    #+END_SRC
+    =host_dir= should not be windows volume because of the permission issue.
++ Now to attach or connect to the container
+    #+BEGIN_SRC sh
+    docker exec -it test-mongo bash
+    #+END_SRC
+
++ and for security we can also use username and password.
+    #+BEGIN_SRC sh
+    docker run -d -p 27017:27017 -v <host_dir>:/data/db/  -e MONGO_INITDB_ROOT_USERNAME=<username> -e MONGO_INITDB_ROOT_PASSWORD=<password> --name test-mongo mongo:<version>
+    #+END_SRC
+
++ To connect it to mongo shell we use
+    #+BEGIN_SRC sh
+    mongosh --host localhost:<port> -u user -p pass --authenticationDatabase admin
+    #+END_SRC
+
+
+* =mongosh=
+:PROPERTIES:
+:ID:       b88d6bc5-ae95-4cd6-a252-4bb3ba912ac1
+:END:
++ Javascript functions are present in the shell.
++ We can use =mongosh --nodb= to run mongo without connecting to any mongodb instance.
+ + In that case we can use
+    #+BEGIN_SRC sh
+    con= new Mongo("localhost:27017")
+    db=con.getDB("test")
+    #+END_SRC
+** =db= object
++ =db= object is used to access the database.
++ =db.insertOne(document)= is used to insert a document in the collection.
++ =db.insertMany(document)= is used to insert multiple documents in the collection.
++ =db.collection.find()= is used to find the documents in the collection.(equivalent to "select * from tabel;")
+  + =db.collection.findOne()= is used to find the first document in the collection.
+  + =db.collection.find(document)= is used to find the documents in the collection which matches the document.
++ =db.collection.updateOne(document, update)= is used to update the document in the collection.
+    + =db.collection.updateMany(document, update)= is used to update the multiple documents in the collection.
+    + syntax for =update= is ={$set: {key: value}}=
++ =db.collection.deleteOne(document)= is used to delete the document in the collection.
+    + =db.collection.deleteMany(document)= is used to delete the multiple documents in the collection.
++ =db.collection.upsertOne(document, update)= is used to update the document in the collection if it exists else it will insert the document.
+    + =db.collection.upsertMany(document, update)= is used to update the multiple documents in the collection if it exists else it will insert the document.
++ =db.collection.count()= is used to count the number of documents in the collection.
++ =db.collection.drop()= is used to drop the collection.

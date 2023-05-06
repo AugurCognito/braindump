@@ -1,0 +1,36 @@
+:PROPERTIES:
+:ID:       6d3e3af1-2840-4b29-97f9-73fc6e0f090b
+:END:
+
+Make is a tool which controls the generation of executables and other non-source files of a program from the program's source files.
+=makefile= directs make on how to compile the program.
+* makefile
+makefile is a file that contains a set of directives used by make to build an executable program from source code. It has four sections: macros, targets, rules, and variables.
+#+BEGIN_SRC makefile
+# Macros
+CC = gcc
+CFLAGS = -Wall -g
+
+# Targets
+all: hello
+
+# Rules
+hello: hello.o
+    $(CC) $(CFLAGS) -o hello hello.o
+
+hello.o: hello.c
+    $(CC) $(CFLAGS) -c hello.c
+
+# Variables
+clean:
+    rm -f hello hello.o
+#+END_SRC
+tab is really important in makefile.
+** =targets=
+Target is the file that make is trying to create or will be created in the end. One target can have multiple dependencies and those dependencies can have multiple targets. A target can have other targets as prerequisites.
+This all makes a rule.
+#+BEGIN_SRC makefile
+hello: hello.o
+    command
+#+END_SRC
+means that =hello= is the target and =hello.o= is the dependency and hello command runs the =command=.

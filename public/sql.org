@@ -56,29 +56,136 @@ Syntax is:
     HAVING group_condition;
   #+end_src
   =Group BY= can be used to get result of group of data. =HAVING= is used with =GROUP BY=, it is identical with =WHERE=.
-
+- =WHERE= with =or= requires to give something to compare on both sides. For example =where title like '%flyby%' or '%fly by%'= will result in an error and correct way to write it is =where title like '%flyby%' or title like '%fly by%'=
+  - Regex can be used in =WHERE= clause. For example =where title ~* 'fly.*by'= wil
+*** Sargeable Queries in SQL
+:PROPERTIES:
+:ID:       e1099fe9-843d-4eec-b592-9e9108872f7a
+:END:
+Sargeable queries are queries that can be broken down into smaller queries. For example
+#+begin_src sql
+    SELECT * FROM table1
+    WHERE col1 = 'some value'
+    AND col2 = 'some other value';
+#+end_src
+can be broken down into
+#+begin_src sql
+    SELECT * FROM table1
+    WHERE col1 = 'some value';
+    SELECT * FROM table1
+    WHERE col2 = 'some other value';
+#+end_src
 * Data manipulation in SQL
 :PROPERTIES:
 :ID:       90dcef52-060a-445e-b42e-2e41e41fd721
 :END:
-** =INSERT= in SQL
+** Creating and destroying table is SQL
+:PROPERTIES:
+:ID:       950a26b7-5615-48f0-885e-68d35b4f62d5
+:END:
+*** To create a table we use
+#+begin_src sql
+    CREATE TABLE tablename(
+        col1 datatype,
+        col2 datatype,
+    );
+#+end_src
+- =NOT NULL= is used to make a column not null
+- =UNIQUE= is used to make a column unique
+- =PRIMARY KEY= is used to make a column primary key
+Special datatypes are:
+- =SERIAL=
+    is a unique number for each row. Can be used as primary key.
+*** Droping tables
+- =DROP TABLE= is used to delete a table.
+- =DROP TABLE IF EXISTS= is used to delete a table if it exists.
+*** Copying from file
+- =COPY= is used to copy data from a file to a table.
+- =COPY tablename FROM 'file_path' DELIMITER ',' CSV HEADER;=
+** Inserting data in SQL
 :PROPERTIES:
 :ID:       b53b8cf0-1e94-4a80-91d5-e45cfeb8ddc5
 :END:
-Basic syntax of =INSERT= is
+*** =INSERT INTO=
+:PROPERTIES:
+:ID:       645cbbb3-d28d-4cff-a5a1-651aea6e3806
+:END:
+Basic syntax of =INSERT INTO= is
 #+begin_src sql
     INSERT INTO tablename
     (col1, col2,...coln)
     VALUES (value1, value2...valuen)
            (valu1, valu2,...valun)
 #+end_src
-Column names are optional and need not to all be in order or full list of column available to a table.
+Column names are optional and need not to all be in order or full list of column available to a table. This can also be used to insert multiple rows from another table. For example:
+#+begin_src sql
+    INSERT INTO tablename(
+        col1, col2, col3
+
+    SELECT col1, col2, col3 FROM othertablename
+    WHERE condition
+#+end_src
+
+*** Type casting in SQL
+:PROPERTIES:
+:ID:       7861bd1b-6788-43c4-bd41-235ff2ebd859
+:END:
+- =value::type= is used to cast a value to a type.
+
+** Constraints in SQL
+:PROPERTIES:
+:ID:       cf8cfd1e-b69a-4875-8ce7-6f05d8a612ce
+:END:
+- To add a constraint to a table we use
+    #+begin_src sql
+        ALTER TABLE tablename
+        ADD CONSTRAINT constraint_name
+        constraint_type (col1, col2,...coln);
+    #+end_src
+*** Types of constraints
+- =PRIMARY KEY= is used to make a column primary key
+- =FOREIGN KEY= is used to make a column foreign key
+- =UNIQUE= is used to make a column unique
+- =CHECK= is used to make a column check
+- =NOT NULL= is used to make a column not null
 * PostgreSQL
 :PROPERTIES:
 :ID:       f70271fd-3e62-4e7d-afdb-237237550a61
-:END
+:END:
 Resources:
 [[https://www.crunchydata.com/developers/playground/][+ Postgresql playground]]
+** =psql=
+:PROPERTIES:
+:ID:       a44cf0b4-b4ea-4d85-8208-be8932fd6a13
+:END:
+*** Login
++ General login =psql -U username -p port -h hostname=
++ To login with ubuntu =sudo -u <username> psql=. Default is generally 'postgres'.
+*** Modify database
++ To create a database =CREATE DATABASE databasename;=
++ To delete a database =DROP DATABASE databasename;=
+*** Special commands
++ To list all databases =\l=
++ To list all tables =\dt=
++ To list all columns of a table =\d tablename=
++ To run commands in a shell =\! command=
++ To run a =.sql= file =\i filename.sql=
++ =\copy= is used to copy data from a file to a table.
+    #+begin_src sql
+        \copy tablename FROM 'file_path' DELIMITER ',' CSV HEADER;
+    #+end_src
+It even works on client side.
++ =\x= is used to toggle between vertical and horizontal display of data.
+** Schema in PostgreSQL
+:PROPERTIES:
+:ID:       05f6e3f8-8fcb-4b5e-ab6b-3353fea9ad9e
+:END:
++ On the top there are clusters, which are a collection of databases.
++ Clusters have databases.
++ Databases have schema and schema have tables, views, functions, etc.
+  + Schema is a collection of database objects.
+  + By default there is a schema called =public=.
+
 ** =createdb= and =dropdb=
 :PROPERTIES:
 :ID:       22d931fe-a947-4f18-85c3-31e5d1290759
@@ -89,15 +196,20 @@ Creates a database with =dbname= name.
 - =sudo -u <username> dropdb <dbname>=
 Deletes database with =dbname= name.
 
-** =sudo -u <username> psql=
-:PROPERTIES:
-:ID:       e6249340-499d-403b-a9b7-8836165d8f0c
-:END:
-Default is generally 'postgres'
-*** =\dn=
+** =\dn=
 To show all schemas
-*** =\dt <schema_name>.*=
+** =\dt <schema_name>.*=
 To show all relations of schema
+** Relations
+*** Sequence
+:PROPERTIES:
+:ID:       29dc2d66-9e79-4e03-b3db-4a9e2c8e3c60
+:END:
+Sequence is a special kind of relation that generates unique integer values
+- It is stored in =pg_catalog.pg_sequence= relation.
+- It is named as =<table_name>_<column_name>_seq=.
+- =CREATE SEQUENCE seq_name= is used to create a sequence.
+- =nextval()= is used to get the next value of a sequence.
 * SQLite
 :PROPERTIES:
 :ID:       7e9f8189-b191-4614-a9ac-c7f569e456ff

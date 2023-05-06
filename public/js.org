@@ -2,3 +2,23 @@
 :ID:       6d77843f-7f7c-4c42-a603-57669b67597f
 :END:
 #+title: JavaScript
+
+* Express
+:PROPERTIES:
+:ID:       23880002-0f7e-48b8-bc0d-8432dae5d2ce
+:END:
+This will be regarding the Express framework for Node.js.
+
+** Initial setup
+#+BEGIN_SRC js
+    const express = require('express');
+    const app = express();
+    app.listen(3000, () => console.log('Listening on port 3000'));
+#+END_SRC
+** Middleware
+Middleware is a function that has access to the request and response objects. It can do whatever it wants with them, and then call the next function in the middleware stack. If it doesn't call =next()=, then the request will be left hanging.
++ Special middleware
+  + =express.static()= - serves static files
+  + =express.json()= - parses incoming requests with JSON payloads
+  + =express.urlencoded()= - parses incoming requests with URL-encoded payloads
++ Custom middleware

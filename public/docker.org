@@ -37,7 +37,6 @@ Each layer represents a Dockerfile instruction. The layers are stacked and each 
 + to attach to a container, use =docker attach <container_id>=.
 + to start a container, use =docker start <container_id>=.
 + =docker ps -a --size= will show all containers, including the ones that have been stopped. =--size= will show the size of the container.
-
 + =docker logs <container_id>= will show the logs of a container. =docker logs -f <container_id>= will show the logs of a container and follow them.
 + Container can be killed using =docker kill= or =docker stop=(gives grace period).
 

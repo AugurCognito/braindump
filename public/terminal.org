@@ -20,7 +20,7 @@ struct termios {
 	tcflag_t c_oflag;
 	tcflag_t c_cflag;
 	tcflag_t c_lflag;
-	cc_t c_cc[NCCS];
+	cc_t  c_cc[NCCS];
 	speed_t c_ispeed;
 	speed_t c_ospeed;
 };
@@ -59,3 +59,16 @@ struct termios {
 4. =\e[?25h=: shows the cursor
 5. =\e[1m=: sets the text to bold
 6. =\e[0m=: sets the text to normal
+** Arrow, page up, page down, home, end keys
+:PROPERTIES:
+:ID:       512b3013-341c-409b-acfa-4bbb24c44124
+:END:
+Above mentioned keys are sent as a sequence of characters. First two characters are =\e[= and the third character is one of the following:
+1. =A=: up arrow
+2. =B=: down arrow
+3. =C=: right arrow
+4. =D=: left arrow
+5. =H=: home
+6. =F=: end
+7. =5=: page up
+8. =6=: page down

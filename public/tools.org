@@ -6,6 +6,32 @@
 :PROPERTIES:
 :ID:       ba0f095f-f710-46c6-b77b-2d0f02da53fc
 :END:
+** =awk=
+[[id:0f55e446-a455-4dae-b42b-d7dbaf0cf656][GNU awk]] is great for anything text related.
+
+Format is
+#+begin_src shell
+awk [flags] [code] [file1] [file2] [file3]
+#+end_src
+we can also pass input through pipe
+
+command is written in =''=.
+** Bruno - Postman alternative
+** =grep=
+#+begin_src shell
+grep [flags] search_term file_path
+#+end_src
+** =inxi=
+Provides in depth system information.
+
+For example for graphics related system information.
+#+begin_src shell
+inxi -G
+#+end_src
+** =jq= command line JSON parser
+:PROPERTIES:
+:ID:       23c3971e-bd2e-437d-b11f-af21f52fd29e
+:END:
 ** =nethogs=
 :PROPERTIES:
 :ID:       d44915a3-36dd-45ed-ad81-1755cc44e4ab
@@ -71,33 +97,8 @@ More detail at
 man tcpdump
 #+end_src
 
-** =inxi=
-Provides in depth system information.
-
-For example for graphics related system information.
-#+begin_src shell
-inxi -G
-#+end_src
 ** =tlp=
 Manages power related settings in the laptop, more or less essential.
 
 + =sudo tlp bat/ac/auto=: Manual/auto control over tlp, had issues with overheating when charging in auto mode.
 + =tlp-stat=: shows info related to system and tlp, =sudo= can be needed to run some commands.
-** =awk=
-[[id:0f55e446-a455-4dae-b42b-d7dbaf0cf656][GNU awk]] is great for anything text related.
-
-Format is
-#+begin_src shell
-awk [flags] [code] [file1] [file2] [file3]
-#+end_src
-we can also pass input through pipe
-
-command is written in =''=.
-** =grep=
-#+begin_src shell
-grep [flags] search_term file_path
-#+end_src
-** =jq= command line JSON parser
-:PROPERTIES:
-:ID:       23c3971e-bd2e-437d-b11f-af21f52fd29e
-:END:

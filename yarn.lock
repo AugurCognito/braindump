@@ -830,6 +830,11 @@
     "tar-fs" "^2.0.0"
     "tunnel-agent" "^0.6.0"
 
+"prismjs@^1.29.0":
+  "integrity" "sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q=="
+  "resolved" "https://registry.npmjs.org/prismjs/-/prismjs-1.29.0.tgz"
+  "version" "1.29.0"
+
 "property-information@^6.0.0":
   "integrity" "sha512-hrzC564QIl0r0vy4l6MvRLhafmUowhO/O3KgVSoXIbbA2Sz4j8HGpJc6T2cubRVwMwpdiG/vKGfhT4IixmKN9w=="
   "resolved" "https://registry.npmjs.org/property-information/-/property-information-6.1.1.tgz"

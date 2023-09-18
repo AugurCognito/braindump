@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       e8399a66-b65d-491a-82ea-9887ff3339d7
 :END:
-#+title: sbd - keyboard
+#+title: xbd - keyboard
 
 * Remap keys using =xkb=
 :PROPERTIES:

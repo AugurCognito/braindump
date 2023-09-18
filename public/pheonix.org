@@ -1,0 +1,33 @@
+:PROPERTIES:
+:ID:       82e4e7ac-52ed-4c6a-bc3a-ff17bece8a5f
+:END:
+#+title: Phoenix
+* Configuration
+:PROPERTIES:
+:ID:       29b366df-b152-4067-a193-8dcf1537bf60
+:END:
+Macros, Macros everywhere. One of the most useful one is =config= (=config/2= with environment and opts, and =config/3= with environment, key, and opts). It is present in =proj_root/config/*.exs=.
+#+begin_src elixir
+config :namespace, key_to_be_configured,
+  key: value,
+  key: value,
+  key: value
+#+end_src
+Refer to [[https://hexdocs.pm/elixir/main/Config.html][Config]] for documentation. For example
+#+begin_src elixir
+config :learning, App.Repo,
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  database: "app_dev",
+  pool_size: 10
+#+end_src
+This will set config for =App.Repo= and assuming =Ecto.Repo= is used to define the repo, it will use adapter =Ecto.Adapters.Postgres= (by default) and use config values to connect to the database.
+* LiveView
+:PROPERTIES:
+:ID:       b5e0fcfd-51dd-4ebf-9bb9-570705f2480f
+:END:
+[https://hexdocs.pm/phoenix_live_view/welcome.html[Pheonix LiveView]] is a set of three main components:
++ =Phoenix.Component=
++ =Phoenix.LiveView=
++ =Phoenix.LiveComponent=

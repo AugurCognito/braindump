@@ -1,0 +1,49 @@
+:PROPERTIES:
+:ID:       7afdb122-119c-4ebf-9b6f-8cb30871df3d
+:END:
+#+title:  Elixir
+
+* Elixir
+:PROPERTIES:
+:ID:       1532b1d4-f8a6-4766-a896-4ab232dcdf2b
+:END:
+** Compiling and Running Elixir Code
+:PROPERTIES:
+:ID:       6e18da5b-0fae-4af7-8e66-cfbf7045cbd2
+:END:
++ =elixirc= is used to compile elixir files.
+** Some Important Points about Elixir
+:PROPERTIES:
+:ID:       b59e207f-927a-4a14-92a7-d051eff85f99
+:END:
++ Everything is an expression which returns a value, this includes control structures like if, unless, case, etc.
++ Variables are mutable but memory used by them is immutable.
++ =fn_name?= is used to indicate that function is going to return a boolean value.
++ =fn_name! = is used to indicate that function is going to raise an exception.
++ =def= and =defmodule= are macros.
++ Last statement in a function is the return value.
++ Parenthesis are optional in function calls.
++ Function artiy is the number of arguments it takes. So everywhere on the internet or docs you will see =fn_name/arity=.
++ Default values can be provided using =\\= operator. Example =def greet(name, greeting \\\\ "Hello") do ... end=. This is equivalent to writing a function with less arity and then calling it from the function with more arity. This actually creates multiple functions with different arities. It is not possible for a single function to have multiple arities.
++ =defp= is used to define private functions. Private functions can only be called from the module they are defined in.
++ =import= inside a =defmodule= block imports the functions from the module into the current module. This is different from =import= outside a =defmodule= block which imports the functions into the current namespace.
++ =alias= is used to alias a module. Example =alias MyApp.User, as: User=.
++ =alias abc.def= is equivalent to =alias abc.Def, as: Def=.
++ =@abc= is a module attribute. It is used to store metadata about the module. It is used to store compile time constants. It is also used to store documentation.
+  + =@moduledoc= is used to store documentation for the module.
+  + =@doc= is used to store documentation for a function.
+  + =@spec= is used to store the function signature(type).
++
+** Type System in Elixir
+:PROPERTIES:
+:ID:       af695faf-87a2-40a6-98cc-c8c7d6fa140d
+:END:
++ Elixir is dynamically typed. Static typing is in [[https://elixir-lang.org/blog/2023/06/22/type-system-updates-research-dev/][development]].
++ There are numbers, =floats= and =integers=.
++ =:atom= is a constant whose name is its value. They are used to reference modules, functions, etc. They are also used as keys in maps.
+  + There is another way to write atoms, =:"atom"=. This is useful when atom name contains special characters.
+  + Can also write with simple capital letter and in that case we dont require colon. Example =:Elixir.Atom= is same as =Atom= because =Elixir= is the default namespace.
++ =:true= and =:false= are atoms. =nil= is also an atom.
+
+** Frameworks
+*** [[id:82e4e7ac-52ed-4c6a-bc3a-ff17bece8a5f][Phoenix]]

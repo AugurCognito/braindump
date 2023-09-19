@@ -1,0 +1,87 @@
+:PROPERTIES:
+:ID:       82e4e7ac-52ed-4c6a-bc3a-ff17bece8a5f
+:END:
+#+title: Phoenix
+* Configuration
+:PROPERTIES:
+:ID:       29b366df-b152-4067-a193-8dcf1537bf60
+:END:
+Macros, Macros everywhere. One of the most useful one is =config= (=config/2= with environment and opts, and =config/3= with environment, key, and opts). It is present in =proj_root/config/*.exs=.
+#+begin_src elixir
+config :namespace, key_to_be_configured,
+  key: value,
+  key: value,
+  key: value
+#+end_src
+Refer to [[https://hexdocs.pm/elixir/main/Config.html][Config]] for documentation. For example
+#+begin_src elixir
+config :learning, App.Repo,
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  database: "app_dev",
+  pool_size: 10
+#+end_src
+This will set config for =App.Repo= and assuming =Ecto.Repo= is used to define the repo, it will use adapter =Ecto.Adapters.Postgres= (by default) and use config values to connect to the database.
+* Constructor Reducers and Converter in Phoenix
+:PROPERTIES:
+:ID:       9cb93f53-3a77-4d78-ac61-57a897ca5ed6
+:END:
+=Plug.Conn= is useful struct used heavily in Phoenix. It is a struct that holds information about the connection. It is passed around in the pipeline and is used to render the response. It is defined in =Plug.Conn= module.
+Plug has many Reducer functions to modify the connection. Pheonix is giant function with CRC pipeline.
+#+begin_src
+connection_from_request
+|> endpoint
+|> router
+|> custom_application
+#+end_src
+* LiveView
+:PROPERTIES:
+:ID:       b5e0fcfd-51dd-4ebf-9bb9-570705f2480f
+:END:
+It is closer to react. Router routes to the liveview and then it is mounted and rendered. Events are observed and re-rendered. =mount/3= -> =render/1= -> =handle_event/3=
+[[https://hexdocs.pm/phoenix_live_view/welcome.html][Pheonix LiveView]] is a set of three main components:
++ =Phoenix.Component=
++ =Phoenix.LiveView=
++ =Phoenix.LiveComponent=
+** How?
++ You use a =live/3= function in the router to route to a liveview.
+#+begin_src elixir
+scope "/", NameWeb do
+pipe_through :browser
+
+get "/", PageController, :home
+live "/live", NameLive
+end
+#+end_src
+
++ Assign a socket to the liveview
+#+begin_src elixir
+def mount(_params, _session, socket) do
+{:ok, assign(socket, :message, "Hello World")}
+end
+#+end_src
+Mount either returns ={:ok, socket}= or ={:error, reason}=.
++ Render the liveview
+#+begin_src elixir
+def render(assigns) do
+    ~H"""
+        Hello <%= @message %>
+    """
+end
+#+end_src
+=~H= is a sigil for HEEx.
++ Handle events
+#+begin_src elixir
+def handle_event("click", %{"message" => message}, socket) do
+{:noreply, assign(socket, :message, "Clicked!")}
+end
+#+end_src
+Same as render it will return ={:noreply, socket}= or ={:reply, {:ok, assigns}, socket}= or ={:stop, reason, socket}=.
+* Generators
+:PROPERTIES:
+:ID:       5f1f3fe6-d049-418d-9b2a-2172f1480893
+:END:
+=phx.gen= provides a bunch of generator functions to generate boilerplate code.
++ =phx.gen.auth Accounts User users= where =Accounts= is the context, =User= is the schema, and =users= is the plural name(bu default also table name).
+  Authentication Service is defined in =app/lib/app_web/user_auth.ex=. Almost everything in here is a Plug.

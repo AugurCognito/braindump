@@ -44,6 +44,12 @@
   + There is another way to write atoms, =:"atom"=. This is useful when atom name contains special characters.
   + Can also write with simple capital letter and in that case we dont require colon. Example =:Elixir.Atom= is same as =Atom= because =Elixir= is the default namespace.
 + =:true= and =:false= are atoms. =nil= is also an atom.
-
+** Constructors, Reducers and Converters
+:PROPERTIES:
+:ID:       8b2b2b1a-2b0a-4b0a-8b0a-2b0a4b0a8b2b
+:END:
++ Constructor are functions that create a new data structure. Example =Map.new/0=, =Map.new/1=, =Map.new/2=, etc.
++ Reducers are functions that reduce a data structure to a single value. Example =Enum.reduce/2=, =Enum.reduce/3=, etc.
++ Converters are functions that convert a data structure to another data structure. Example =Enum.to_list/1=, =Enum.to_map/1=, etc.
 ** Frameworks
 *** [[id:82e4e7ac-52ed-4c6a-bc3a-ff17bece8a5f][Phoenix]]
